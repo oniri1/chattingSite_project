@@ -1,11 +1,29 @@
-// import { writeFile } from 'node:fs';
+// import { fs } from 'node:fs';
 // import { Buffer } from 'node:buffer';
 
 const fs = require("fs");
-const Buffer = require("buffer");
+// const path = require("path");
 
-const data = new Uint8Array(Buffer.from("Hello Node.js"));
-fs.writeFile("message.txt", data, (err) => {
+const {
+  dataFileName,
+  dataTypeName,
+  dataName,
+  dataPath,
+} = require("./js/dataSet");
+
+const postList = [
+  { id: 1, writer: "이정배" },
+  { id: 2, writer: "이승배" },
+];
+
+//const data = new Uint8Array(Buffer.from(JSON.stringify(postList)));
+const data = Buffer.from(JSON.stringify(postList));
+fs.writeFileSync(`${dataPath}/${dataName}`, data, (err) => {
   if (err) throw err;
   console.log("The file has been saved!");
 });
+
+// console.log(dataPath);
+const getDate = JSON.parse(fs.readFileSync(`${dataPath}/${dataName}`));
+
+console.log(getDate);
