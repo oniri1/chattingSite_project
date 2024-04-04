@@ -1,14 +1,16 @@
 //익스 프레스 받아오기
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 
 //추가 설정파일 .config = 프로세스에 올리기, 접근 방법 = process.env.이름
 require("dotenv").config();
 // 서버 알림이
 const morgan = require("morgan");
 
-//객체를 넣어주면 data로 저장해줌
-const { getData, checkData, addData } = require("./js/dataFunc");
+//커스텀 모듈
+const { getData, checkData, addData, countMake } = require("./js/dataFunc");
+const { dataPathFile, countPathFile, countFileName } = require("./js/dataPath");
 
 //익스프레스 설정 app.
 const app = express();
@@ -38,22 +40,47 @@ app.use(express.static("views"));
 //
 
 app.get("/", (req, res) => {
-  checkData();
-  const postList = checkData();
+  checkData(dataPathFile);
+  const postList = checkData(dataPathFile);
 
-  res.render("index", postList);
+  res.render("index", { postList });
 });
 
-app.post("/write", (req, res) => {
-  //포스트 카운트 만들어야 함
+// app.get("/imgs",express.static())
 
-  req.body.id = postCount++;
+app.get("/board", (req, res) => {
+  console.log(req.query);
+  req.query.imgSrc = "/imgs/hamster.png";
+
+  res.render("boardData/index", req.query);
+});
+
+app.get("/board/index.css", (req, res) => {
+  console.log("css");
+  res.sendFile(path.join(__dirname, "views/boardData/index.css"));
+});
+
+//
+
+//
+
+//
+
+app.post("/write", (req, res) => {
+  checkData(dataPathFile);
+  countMake(dataPathFile, countPathFile);
+
+  const num = getData(countPathFile)[0] + 1;
+
+  req.body.id = num;
   req.body.createdAt = new Date().toLocaleString();
-  console.log(req.body);
+
+  addData(dataPathFile, req.body);
+  countMake(dataPathFile, countPathFile);
+
+  res.redirect("/");
 });
 
 app.listen(app.get("port"), (req, res) => {
   console.log("server open", app.get("port"));
 });
-
-// addData({ id: 1, writer: "추가" });

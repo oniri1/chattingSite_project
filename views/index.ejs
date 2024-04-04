@@ -59,7 +59,12 @@
         <!-- 게시글 -->
         <div id="post-list">
           <!--  -->
-          <div class="post">
+
+          <% postList.forEach((item) => {%>
+          <%- include('postAddElem', item)%>
+          <% })%>
+
+          <!-- <div class="post">
             <div class="pic-box">
               <div class="pic-name">햄스터 제목</div>
               <img class="pic-img" src="./imgs/hamsterlooking-removebg.png" alt="이미지를 넣어주십쇼!" data-keyname="공격적" />
@@ -67,7 +72,7 @@
             <div class="pic-text">
               이 칸은 게시글이 올라왔을 때의 예시 입니다
             </div>
-          </div>
+          </div> -->
 
           <!--  -->
         </div>

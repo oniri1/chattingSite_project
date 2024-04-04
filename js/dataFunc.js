@@ -2,9 +2,6 @@ const fs = require("fs");
 
 const { dataName, dataPath, checkDataDir } = require("./dataPath");
 
-const dataPathFile = `${dataPath}/${dataName}`;
-const countPathFile = `${dataPath}/count.json`;
-
 //
 const getData = (pathFile) => {
   const data = JSON.parse(fs.readFileSync(pathFile));
@@ -63,18 +60,20 @@ const addData = (pathFile, addObject) => {
 //
 //
 
-const countMatch = () => {
-  const data = checkData(dataPathFile);
-
-  const count = checkData(countPathFile);
-
+const countMake = (rootPath, countSavePath) => {
+  const data = checkData(rootPath);
+  const count = checkData(countSavePath);
   count[0] = data.length;
 
   // fs.writeFileSync(count);
-  dataSave(countPathFile, count);
+  dataSave(countSavePath, count);
 };
 
-addData(dataPathFile, {});
-countMatch();
+// const { dataName, dataPath, checkDataDir } = require("./dataPath");
+// const dataPathFile = `${dataPath}/${dataName}`;
+// const countPathFile = `${dataPath}/count.json`;
 
-module.exports = { dataSave, getData, addData, checkData };
+// // addData(dataPathFile, {});
+// countMake(dataPathFile, countPathFile);
+
+module.exports = { dataSave, getData, addData, checkData, countMake };

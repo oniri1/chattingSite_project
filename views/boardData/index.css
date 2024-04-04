@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  width: 100%;
+  border: 2px solid black;
+  background-color: aqua;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#post-id-o {
+  height: 20%;
+  font-size: 4rem;
+}
+#post-name-o {
+  height: 10%;
+}
+#post-tagN-o {
+  height: 10%;
+}
+#post-imSr-o {
+  height: 40%;
+}
+#post-text-o {
+  height: 20%;
+}

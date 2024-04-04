@@ -5,6 +5,11 @@
   height: 100%;
 }
 
+.post-a-elem {
+  text-decoration: none; /* 링크의 밑줄 제거 */
+  color: inherit; /* 링크의 색상 제거 */
+}
+
 #smoke-p {
   background-color: rgba(0, 0, 0, 0.3);
 }

@@ -8,7 +8,9 @@ const dataPath = path.join(__dirname, "..", "data");
 
 const checkDataDir = fs.readdirSync(dataPath);
 
-const countNumName = "countNum.json";
+const countFileName = "countNum.json";
+const dataPathFile = `${dataPath}/${dataName}`;
+const countPathFile = `${dataPath}/${countFileName}`;
 
 module.exports = {
   dataFileName,
@@ -16,4 +18,7 @@ module.exports = {
   dataName,
   dataPath,
   checkDataDir,
+  countFileName,
+  dataPathFile,
+  countPathFile,
 };
