@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+      }
+      #smoke-p {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      #post-container-p {
+        width: 40%;
+        height: 80%;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+      #input-name-p {
+        height: 12%;
+        border-bottom: 1px solid gray;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+      #input-name-text-p {
+        width: 90%;
+        height: 90%;
+      }
+      #input-tag-p {
+        height: 10%;
+        border-bottom: 1px solid gray;
+        display: flex;
+        justify-content: center;
+      }
+
+      #line-boxs-p {
+        width: auto;
+
+        display: flex;
+        border: 1px solid gray;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .fillter-box-p {
+        width: 50px;
+        background-color: rgba(128, 128, 128, 0.3);
+
+        border-left: 1px solid gray;
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      #input-img-p {
+        height: calc(100% - 12% - 10% - 20% - 12%);
+        border-bottom: 1px solid gray;
+
+        flex-wrap: wrap;
+      }
+      #inputImg-p {
+        width: 66px;
+      }
+      #input-text-p {
+        height: 20%;
+        border-bottom: 1px solid #808080;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+
+      #input-explan-text-p {
+        width: 90%;
+        height: 90%;
+      }
+      #btn-container-p {
+        height: 12%;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+      }
+      #cancel-p,
+      #next-p {
+        height: 80%;
+        width: 45%;
+        border-radius: 25px;
+        background-color: aqua;
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      #post-bt-p {
+        border-radius: 25px;
+        background-color: aqua;
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      .text-root-box-p {
+        position: fixed;
+        top: 0;
+
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      .text-box-p {
+        height: auto;
+      }
+      .rock-on-p {
+        background-color: aqua;
+        font-weight: 900;
+        color: white;
+      }
+      input {
+        height: auto;
+      }
+      .hide-p {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 포스팅 -->
+
+    <form action="http://localhost:3000/write" method="post">
+      <div class="text-root-box-p" id="smoke-p">
+        <div class="text-box-p" id="post-container-p">
+          <!-- 햄스터 이름 입력 칸 -->
+          <div id="input-name-p">
+            <div id="input-name-text-p" style="color: white">
+              제목
+              <input
+                id="nameText-p"
+                type="text"
+                name="title"
+                placeholder="이름 입력"
+              />
+            </div>
+          </div>
+          <!-- 햄스터 종류 선택 칸 -->
+          <div id="input-tag-p">
+            <!-- <input
+              type="text"
+              name="tagN"
+              placeholder="공격적 중립적 평화적 중 하나를 입력하세요."
+            /> -->
+          </div>
+          <!-- 사진 올리기 -->
+          <div id="input-img-p">
+            <div style="height: auto; color: white">
+              나중에 사진 올리는 기능을 추가할 칸 입니다.
+            </div>
+            <input
+              style="display: none"
+              type="text"
+              name="imSr"
+              placeholder="이미지"
+              value="none_img"
+            />
+          </div>
+
+          <div id="input-text-p">
+            <div id="input-explan-text-p" style="color: white">
+              내용
+              <input
+                id="explanText-p"
+                type="text"
+                name="text"
+                placeholder="내용 입력"
+              />
+            </div>
+          </div>
+          <!-- cancel,next bt -->
+          <div id="btn-container-p">
+            <a href="../" type="reset" id="cancel-p">취소하기</a>
+            <button id="next-p">게시하기</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
