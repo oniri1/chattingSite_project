@@ -1,0 +1,11 @@
+/* active */
+
+.following {
+  position: sticky;
+  top: 0;
+}
+
+/* dumi */
+.for-scroll {
+  height: 200%;
+}

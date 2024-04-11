@@ -1,0 +1,32 @@
+#navbar {
+  width: 100%;
+  min-height: 5rem;
+
+  background-color: rgba(0, 0, 0, 0);
+  transition: all 0.3s;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 0.2rem;
+}
+
+#navbar #categories-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#navbar #categories-container .categories {
+  margin: 0.2rem;
+  font-size: 1.2rem;
+}
+
+#navbar .categories:hover {
+  transition: all 0.5s;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 1);
+  transform: scale(1.2);
+}

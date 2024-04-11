@@ -3,20 +3,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="css/root.css">
+    <link rel="stylesheet" href="css/event.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/tags.css">
   </head>
   <body>
 
-    <div class="navbar following">
-      <div class="items">gd</div>
-      <div class="items">gd</div>
-      <div class="items">gd</div>
-      <div class="items">gd</div>
+    <div class="following" id="navbar">
+      <!-- 카테고리바 categories 의 id = innerText, idMaker.js-->
+      <div id="categories-container">
+        <div class="categories">JavaScript</div>
+        <div class="categories">Html</div>
+      </div>
 
+      <!-- 태그바 tags의 id -> tag의 class, classMaker.js -->
+      <div id="tags-container">
+        <div class="tags" id="JavaScript">
+          <div class="tag">이론</div>
+          <div class="tag">command</div>
+          <div class="tag">예제 코드</div>
+        </div>
+        <div class="tags" id="Html">
+          <div class="tag">html</div>
+          <div class="tag">html</div>
+          <div class="tag">html</div>
+        </div>
+      </div>
     </div>
 
     <div class="for-scroll"></div>
 
-    <script src="scrollEvent.js"></script>
+    <script src="js/clickEvent.js"></script>
+    <script src="js/scrollEvent.js"></script>
+    <script src="js/classMaker.js"></script>
+    <script src="js/idMaker.js"></script>
+
   </body>
 </html>

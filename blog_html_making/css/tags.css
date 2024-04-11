@@ -1,0 +1,29 @@
+#navbar #tags-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#navbar .tags {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#navbar .tags {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+#navbar .tags .tag {
+  margin: 0.2rem;
+  transition: all 0.5s;
+}
+
+.tag:hover {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 1);
+  transform: scale(1.2);
+}
