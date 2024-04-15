@@ -1,6 +1,6 @@
 #navbar {
   width: 100%;
-  min-height: 5rem;
+  min-height: auto;
 
   background-color: rgba(0, 0, 0, 0);
   transition: all 0.3s;
@@ -8,6 +8,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 
   gap: 0.2rem;
 }
@@ -17,6 +18,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 }
 
 #navbar #categories-container .categories {
