@@ -1,4 +1,5 @@
 <html lang="en">
+
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/tags.css">
   </head>
+
   <body>
 
     <div class="following" id="navbar" style="display: none;">
@@ -34,6 +36,43 @@
 
     <!-- 내용물 -->
     <div id="contents-container">
+      <p>색인(검색)</p>
+      <h1>in mySQL</h1>
+      <h3>장점</h3>
+      <p>얻을 수 있는 장점
+        MySQL에 데이터를 빠르게 찾기 위해, SELECT가 빨라진다.</p>
+      <pre><code class="language-sql">SELECT * FROM board WHERE id=1;
+      </code></pre>
+      <h3>단점</h3>
+      <p>SELECT 이외의 DML이 느려진다.
+        용량 10% 정도 증가한다.</p>
+      <h2>index를 설정하면</h2>
+      <ul>
+        <li>설정에 맞춰서 목록을 생성</li>
+      </ul>
+      <p>|num|name|
+        |---|---|
+        |1|김강문|
+        |2|이정배|
+        |3|이승배|</p>
+      <h3>index를 자동으로 해주는 키</h3>
+      <p>UNIQUE
+        PRIMARY KEY
+        FOREIGN KEY 풔링키</p>
+      <h1>mySQL은 B-tree라는 자료구조를 가지고 있다 [[자료구조]]</h1>
+      <h3>CREATE INDEX</h3>
+      <pre><code class="language-sql">CREATE INDEX
+      idx_board_title ON
+      board_test(title ASC); -- ASC 와 대비되는 것이 DESC
+      --ASC : 오름차순
+      --DESC : 내림차순
+      </code></pre>
+      <h3>SHOW INDEX</h3>
+      <pre><code class="language-sql">SHOW INDEX FROM board_test;
+      </code></pre>
+      <h3>DROP INDEX</h3>
+      <pre><code class="language-sql">DROP INDEX indexname ON tablename
+      </code></pre>
       <!-- 원하는 tags의 id를 class에 넣는다. 이후 div id 는 클릭 이벤트의 inner이다. -->
       <!-- <div class="JavaScript-tag">
         <div id="이론">이건 이론 내용입니다</div>
@@ -45,6 +84,8 @@
         <div id="html2">html2</div>
         <div id="html3">html3</div>
       </div> -->
+
+
     </div>
 
 
@@ -54,10 +95,11 @@
     <script src="js/firstTask.js"></script>
     <script src="js/clickEvent.js"></script>
     <script src="js/scrollEvent.js"></script>
-    <script src="js/contentHiver.js"></script>
+    <!-- <script src="js/contentHiver.js"></script> -->
     <script src="js/idMaker.js"></script>
-    <script type="module" src="js/contentShower.js"></script>
+
 
 
   </body>
+
 </html>

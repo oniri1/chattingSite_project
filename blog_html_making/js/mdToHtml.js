@@ -1,12 +1,13 @@
 import fs from "fs";
 import path from "path";
+
 import { fileURLToPath } from "url";
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-import { unified } from "../node_modules/unified/index.js";
-import markdown from "../node_modules/remark-parse/index.js";
-import remark2rehype from "../node_modules/remark-rehype/index.js";
-import html from "../node_modules/rehype-stringify/index.js";
+import { unified } from "unified";
+import markdown from "remark-parse";
+import remark2rehype from "remark-rehype";
+import html from "rehype-stringify";
 
 const contentsPath = path.join(__dirname, "..", "post");
 
@@ -41,6 +42,10 @@ const getContent = (filePath) => {
   return fileContents;
 };
 
+//
+//
+//
+
 const text = getContent(contentPaths[0]);
 
 const html_text = unified()
@@ -51,8 +56,15 @@ const html_text = unified()
 
 console.log(html_text.toString());
 
-///
+const htmlTextPath = path.join(__dirname, "..", "htmlText");
 
-//추가
+console.log(htmlTextPath);
 
-document.getElementById("contents-container").innerHTML = html_text.toString();
+fs.writeFileSync(
+  `${htmlTextPath}/${filteredContents[0]}.text`,
+  html_text.toString(),
+  (err) => {
+    if (err) throw err;
+    console.log("The file has been saved!");
+  }
+);
