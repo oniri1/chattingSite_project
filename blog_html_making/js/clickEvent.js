@@ -33,10 +33,24 @@ categoryContainer.onclick = (event) => {
   const targetId = event.target.id + "-tag";
   // console.log("target@@@@", targetId);
 
+  const a = [...tagContainer.children].find((elem) => {
+    console.log(elem.style.display);
+    return elem.style.display != "none";
+  });
+
   const target = getTarget(tagContainer, targetId);
   displayNone(tagContainer);
 
   target.style.display = "flex";
+
+  if (a == undefined) {
+  } else {
+    console.log("a@@@@@", a.id);
+
+    if (a.id == `${event.target.id}-tag`) {
+      a.style.display = "none";
+    }
+  }
 };
 
 //태크 클릭 이벤트

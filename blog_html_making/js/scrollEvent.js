@@ -7,6 +7,12 @@ document.onscroll = () => {
     followElems.forEach((elem) => {
       elem.style.backgroundColor = "var(--nav-color)";
       elem.style.transition = "all 1s";
+      // [...document.getElementById("tags-container").children].forEach(
+      //   (elem) => {
+      //     console.log("doing");
+      //     elem.style.display = "none";
+      //   }
+      // );
     });
   } else {
     followElems.forEach((elem) => {
