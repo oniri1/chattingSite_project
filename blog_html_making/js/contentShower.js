@@ -1,13 +1,12 @@
 import fs from "fs";
 import path from "path";
-
 import { fileURLToPath } from "url";
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-import unified from "unified";
-import markdown from "remark-parse";
-import remark2rehype from "remark-rehype";
-import html from "rehype-stringify";
+import { unified } from "../node_modules/unified/index.js";
+import markdown from "../node_modules/remark-parse/index.js";
+import remark2rehype from "../node_modules/remark-rehype/index.js";
+import html from "../node_modules/rehype-stringify/index.js";
 
 const contentsPath = path.join(__dirname, "..", "post");
 
@@ -51,3 +50,9 @@ const html_text = unified()
   .processSync(text);
 
 console.log(html_text.toString());
+
+///
+
+//추가
+
+document.getElementById("contents-container").innerHTML = html_text.toString();
