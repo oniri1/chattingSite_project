@@ -1,4 +1,4 @@
-import { Board, Category } from "../../models/index.js";
+import { Board, Category, User } from "../../models/index.js";
 
 export default async (req, res) => {
   try {
@@ -20,12 +20,17 @@ export default async (req, res) => {
           ],
           attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
         },
+        {
+          model: User,
+          // include: [{ model: Board }],
+          attributes: ["id", "email", "nick"],
+        },
       ],
       attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
     });
     res.json(list);
   } catch (err) {
     console.log(err);
-    res.send("error");
+    res.send({ err: err.message });
   }
 };
