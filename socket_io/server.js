@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const socket = require("./socket/socket.js");
 const roomsocket = require("./socket/roomsocket.js");
 const router = require("./router");
 
@@ -32,5 +31,4 @@ const server = app.listen(app.get("port"), () => {
 });
 
 //소켓통신
-// socket(server);
 roomsocket(server);

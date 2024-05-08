@@ -1,11 +1,6 @@
 const router = require("express").Router();
+const room = require("./rooms");
 
-router.use("/chat", (req, res) => {
-  res.render("chat");
-});
-
-router.use("/room", (req, res) => {
-  res.render("room");
-});
+router.use("/room", room);
 
 module.exports = router;

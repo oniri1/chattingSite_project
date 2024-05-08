@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>GIF 채팅방</title>
+    <title><%= roomId %> 채팅방</title>
   </head>
   <body>
 
@@ -12,10 +12,25 @@
     <div id="chats"></div>
 
 
-    <!-- 익스프레스 서버와 소켓 서버가 연결이 되면, 소켓IO 서버에서 js파일을 넣어준다 -->
     <script src="/socket.io/socket.io.js"></script>
-    <script src="./index.js">
+    <script>
+      // console.log()
 
+      const socket = io.connect(location.href, {
+        path: '/socket.io'
+      }); // chat 네임스페이스
+
+      document.getElementById("sendBtn").onclick = () => {
+        const talk = document.getElementById("talk");
+        socket.emit("chatReply", talk.value);
+        talk.value = null;
+      };
+
+      socket.on("chat", (data) => {
+        document.getElementById("chats").innerHTML += `<div>${data}</div>`;
+      });
     </script>
+
+
   </body>
 </html>
