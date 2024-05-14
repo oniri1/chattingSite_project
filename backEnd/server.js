@@ -1,29 +1,28 @@
 //node default
-const path = require("path");
+import path from "path";
+import { fileURLToPath } from "url";
 
 //다운로드
-const express = require("express");
-const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
-const dotenv = require("dotenv");
+import express from "express";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 dotenv.config();
 
 //커스텀
 
-const router = require("./router");
+import router from "./router/index.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 app.set("port", process.env.PORT || 3000);
 
-//몽고
-const mongoPort = process.env.MONGODBPORT;
-console.log("server@@@@@@", mongoPort);
-module.exports = { mongoPort };
-
 //몽고 접속
-const { connectToMongoDB } = require("./mongoDB/mongoClient.js");
-connectToMongoDB();
+import { connectToMongoDB } from "./mongoDB/mongoClient.js";
+connectToMongoDB(process.env.MONGODBPORT);
 
 //라이브러리 설정
 app.use(morgan("dev"));
@@ -43,5 +42,5 @@ const server = app.listen(app.get("port"), () => {
 });
 
 //소켓 통신
-const roomsocket = require("./socket/roomsocket.js");
+import roomsocket from "./socket/roomsocket.js";
 roomsocket(server);

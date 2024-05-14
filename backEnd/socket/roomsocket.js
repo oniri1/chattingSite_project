@@ -1,11 +1,10 @@
-const SocketIO = require("socket.io");
-const { mongoAddData } = require("../mongoDB/mongoClient.js");
-const { DATE } = require("sequelize");
+import { Server } from "socket.io";
+import { mongoAddData } from "../mongoDB/mongoClient.js";
 
 const rooms = [{ id: 1 }, { id: 2 }, { id: 3 }]; //나중에 디비에서 뽑아옴
 
-module.exports = (server) => {
-  const io = SocketIO(server, { path: "/socket.io" });
+export default (server) => {
+  const io = new Server(server, { path: "/socket.io" });
 
   for (const { id } of rooms) {
     // 네임스페이스 등록

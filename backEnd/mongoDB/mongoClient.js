@@ -1,22 +1,17 @@
 //몽고디비에 접속
-const { mongoPort } = require("../server.js");
-console.log("mongoclient.js", mongoPort);
-const { MongoClient } = require("mongodb");
+import { MongoClient } from "mongodb";
 
-const mongoUrl = `mongodb://localhost:${mongoPort}`; // 몽고DB 서버 URI
-const client = new MongoClient(mongoUrl);
+let client;
 
-const connectToMongoDB = async () => {
+const connectToMongoDB = async (mongoUrl) => {
   try {
-    console.log(mongoPort);
+    client = new MongoClient(mongoUrl);
     await client.connect(); // 몽고DB 서버에 연결
     console.log("Connected Mongo@@@@");
   } catch (error) {
     console.error("connectERR @@@@@@", error);
   }
 };
-
-// connectToMongoDB();
 
 //데이터 베이스에 추가
 
@@ -36,4 +31,4 @@ const mongoAddData = async (jsonData) => {
   }
 };
 
-module.exports = { connectToMongoDB, mongoAddData };
+export { connectToMongoDB, mongoAddData };

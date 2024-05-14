@@ -1,4 +1,5 @@
-const router = require("express").Router();
+import { Router } from "express";
+const router = Router();
 
 const rooms = [{ id: 1 }, { id: 2 }, { id: 3 }]; //나중에 디비에서 뽑아옴
 
@@ -15,4 +16,4 @@ router.get("/:roomId", (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
