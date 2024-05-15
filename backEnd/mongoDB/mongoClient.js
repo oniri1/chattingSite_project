@@ -31,4 +31,39 @@ const mongoAddData = async (jsonData) => {
   }
 };
 
-export { connectToMongoDB, mongoAddData };
+//최신 데이터 뽑아오기
+
+const mongoGetData = async (objData) => {
+  try {
+    const database = client.db("chatLog");
+    const collection = database.collection("chats");
+    const result = await collection.find({ ...objData }).toArray();
+
+    return result;
+  } catch (err) {
+    console.log("mongoGetData Func Err@@@ mongoclient.js", err);
+  }
+};
+
+// const andQuerymaker = async (oneObj, twoObj) => {
+//   try {
+//     return { $and: [{ ...oneObj }, { ...twoObj }] };
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// (async () => {
+//   console.log(
+//     andQuerymaker(
+//       { roomId: 1 },
+//       {
+//         $and: [
+//           { createdAt: { $gte: 1715754779659 } }, //기준 - 1hour
+//           { createdAt: { $lte: 1715754780922 } }, //Date now 기준
+//         ],
+//       }
+//     )
+//   );
+// })();
+
+export { connectToMongoDB, mongoAddData, mongoGetData };
