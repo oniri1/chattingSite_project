@@ -47,17 +47,22 @@
 
       //받을 때
       socket.on("chat", (data) => {
-        document.getElementById("chats").innerHTML += `<div>${data}</div>`;
+        // const ele = document.createElement("div")
+        // ele.innerText = data;
+
+
+        console.log("<div></div>");
+        console.log(document.createElement("div"));
+
+        document.getElementById("chats").innerHTML += data
       });
 
       socket.on("chatloading", (data) => {
+        // const ele = document.createElement("div")
+        // ele.innerText = data;
 
-        const divE = document.createElement("div");
-        divE.innerText = `${data.user}:${data.chat} , createdAt : ${data.createdAt}`
-        document.getElementById("chats").prepend(divE);
+        document.getElementById("chats").innerHTML = data + document.getElementById("chats").innerHTML;
         time = --data.createdAt;
-
-
       });
     </script>
 

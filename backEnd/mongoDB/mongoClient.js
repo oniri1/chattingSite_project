@@ -23,9 +23,9 @@ const mongoAddData = async (jsonData) => {
     //JSON 변환
     const data = JSON.parse(jsonData);
 
-    console.log("MongoClient.js ADDfun data@@", data);
+    // console.log("MongoClient.js ADDfun data@@", data);
 
-    await collection.insertOne({ ...data });
+    return await collection.insertOne({ ...data });
   } catch (err) {
     console.log("MongoAddFuncERR@@@@", err);
   }
@@ -38,6 +38,18 @@ const mongoGetData = async (objData) => {
     const database = client.db("chatLog");
     const collection = database.collection("chats");
     const result = await collection.find({ ...objData }).toArray();
+
+    return result;
+  } catch (err) {
+    console.log("mongoGetData Func Err@@@ mongoclient.js", err);
+  }
+};
+
+const mongoGetDataOne = async (objData) => {
+  try {
+    const database = client.db("chatLog");
+    const collection = database.collection("chats");
+    const result = await collection.findOne({ ...objData });
 
     return result;
   } catch (err) {
@@ -66,4 +78,4 @@ const mongoGetData = async (objData) => {
 //   );
 // })();
 
-export { connectToMongoDB, mongoAddData, mongoGetData };
+export { connectToMongoDB, mongoAddData, mongoGetData, mongoGetDataOne };

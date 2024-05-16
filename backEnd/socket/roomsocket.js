@@ -1,7 +1,15 @@
 import { Server } from "socket.io";
-import { mongoAddData, mongoGetData } from "../mongoDB/mongoClient.js";
+import {
+  mongoAddData,
+  mongoGetData,
+  mongoGetDataOne,
+} from "../mongoDB/mongoClient.js";
 
 const rooms = [{ id: 1 }, { id: 2 }, { id: 3 }]; //나중에 디비에서 뽑아옴
+
+const chatEleCreater = (data) => {
+  return `<div>${data.user}:${data.chat} , createdAt : ${data.createdAt}</div>`;
+};
 
 export default (server) => {
   const io = new Server(server, { path: "/socket.io" });
@@ -24,24 +32,28 @@ export default (server) => {
           // console.log(`${socket.id}:${data}`);
           // console.log(JSON.stringify(`"${socket.id":${data}}`));
 
-          mongoAddData(
-            JSON.stringify({
-              roomId: id,
-              user: socket.id,
-              chat: data,
-              createdAt: Date.now(),
-            })
-          );
+          const MongoData = await mongoGetDataOne({
+            _id: (
+              await mongoAddData(
+                JSON.stringify({
+                  roomId: id,
+                  user: socket.id,
+                  chat: data,
+                  createdAt: Date.now(),
+                })
+              )
+            ).insertedId,
+          });
 
           // mongoAddData(`{${socket.id}:${data}}`);
           //보내기
-          room.emit("chat", `${socket.id}:${data}`);
+          room.emit("chat", chatEleCreater(MongoData));
         } catch (err) {
           console.log("roomsocket.js err@@@@", err);
         }
       });
 
-      //채팅 뽑아오기 이벤트
+      //몽고에서 채팅기록 뽑아오기 이벤트
       socket.on("chatLoad", async (data) => {
         try {
           let { time } = data;
@@ -75,7 +87,7 @@ export default (server) => {
 
           dataFromMongo.forEach((temp) => {
             // console.log({ ...temp });
-            room.emit("chatloading", temp);
+            room.emit("chatloading", chatEleCreater(temp));
           });
 
           dataFromMongo = [];
