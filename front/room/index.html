@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>colosseum</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+  <input type="text" name="talk" id="talk">
+  <button id="sendBtn">서버로 보내기</button>
+  <button id="loadBtn">불러오기</button>
+
+  <div id="chats"></div>
+
+  <!-- 업로드 -->
+  <form action="/write" method="post" enctype="multipart/form-data">
+    <input type="file" name="img" accept="image/*" multiple />
+    <input type="text" name="name" value="testing" />
+    <button>upload</button>
+  </form>
+
+
+  <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+  <script src="./test.js"></script>
+  <!-- <script src="./index.js"></script> -->
+
+
+</body>
+
+</html>
