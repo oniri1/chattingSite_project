@@ -8,8 +8,8 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 dotenv.config();
-
 import cors from "cors";
+import { Sequelize } from "sequelize";
 
 //커스텀
 
@@ -44,11 +44,15 @@ const server = app.listen(app.get("port"), () => {
 import roomsocket from "./socket/roomsocket.js";
 roomsocket(server);
 
-//업로더
-
+//이미지 받기
 //upload.single("img")로 받겠다.
 app.post("/write", upload.single("img"), (req, res) => {
-  // console.log("file", req.file);
+  console.log("server /write");
 
-  res.redirect(`${req.headers.referer}`);
+  //파일이 있으면 실행
+  if (req.file?.filename) {
+    res.json({ fileName: req.file.filename });
+  } else {
+    res.json({ fileName: "noFile" });
+  }
 });

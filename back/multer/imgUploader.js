@@ -4,16 +4,16 @@ import multer from "multer";
 export const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      // console.log(1, file);
+      console.log("1");
       //주소
       callback(null, "./uploads");
     },
 
     filename: (req, file, callback) => {
-      // console.log(2, file);
-      console.log(req.file);
+      // console.log("2");
+      // console.log("imgUploader.js@", file);
 
-      callback(null, Date.now() + file.originalname);
+      callback(null, Date.now() + "-" + req.headers["content-length"] + ".png");
     },
   }),
 });

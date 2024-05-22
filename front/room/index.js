@@ -1,47 +1,91 @@
-// console.log()
-let time = Date.now();
-console.log(time);
+(async () => {
+  try {
+    const localhost = location.href;
+    const roomIdStr = localhost.slice(localhost.lastIndexOf("/") + 1);
 
-const roomId = location.href.slice(location.href.lastIndexOf("/") + 1);
-// console.log(roomId)
+    console.log(roomIdStr);
 
-const socket = io("http://localhost:8080/room"); // chat 네임스페이스
+    const roomId = await (
+      await axios.post(
+        `http://localhost:8080/room/${roomIdStr}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+    ).data.roomId;
 
-//보낼 때
-document.getElementById("sendBtn").onclick = () => {
-  const talk = document.getElementById("talk");
-  socket.emit("chatReply", talk.value);
-  talk.value = null;
-};
+    //소켓 통신
+    let time = Date.now();
 
-document.getElementById("loadBtn").onclick = () => {
-  //이전 채팅을 불러오는 함수
-  socket.emit("chatLoad", {
-    time: time,
-    roomId: +roomId,
-  });
-};
+    const socket = io(`http://localhost:8080/room${roomIdStr}`, {}); // chat 네임스페이스
 
-//받을 때
-socket.on("chat", (data) => {
-  // const ele = document.createElement("div")
-  // ele.innerText = data;
+    //보낼 때
+    document.getElementById("sendBtn").onclick = async (e) => {
+      e.preventDefault();
+      //chat
+      const talk = document.getElementById("talk");
 
-  console.log("<div></div>");
-  console.log(document.createElement("div"));
+      //img
+      const form = document.forms.chatDatasForm;
+      const formData = new FormData();
 
-  document.getElementById("chats").innerHTML += data;
-});
+      formData.append("img", form.imgInputer.files[0]);
 
-socket.on("chatload", (data) => {
-  // const ele = document.createElement("div")
-  // ele.innerText = data;
-  console.log(data);
+      const imgName = await (
+        await axios.post(`http://localhost:8080/write`, formData, {
+          withCredentials: true,
+          headers: { "Content-type": "multipart/form-data" },
+        })
+      ).data.fileName;
 
-  document.getElementById("chats").innerHTML =
-    data + document.getElementById("chats").innerHTML;
-});
+      console.log(imgName);
 
-socket.on("CliTimeReset", (data) => {
-  time = --data;
-});
+      socket.emit("chatReply", { chat: talk.value, fileName: imgName });
+    };
+
+    document.getElementById("loadBtn").onclick = (e) => {
+      e.preventDefault();
+      //이전 채팅을 불러오는 함수
+      socket.emit("chatLoad", {
+        time: time,
+        roomId: +roomId,
+      });
+    };
+
+    //받을 때
+    socket.on("chat", (data) => {
+      // const ele = document.createElement("div")
+      // ele.innerText = data;
+
+      document.getElementById("chats").innerHTML += data;
+      document.getElementById("imgInputer").value = null;
+      document.getElementById("talk").value = null;
+    });
+
+    socket.on("chatload", (data) => {
+      // const ele = document.createElement("div")
+      // ele.innerText = data;
+      console.log(data);
+
+      document.getElementById("chats").innerHTML =
+        data + document.getElementById("chats").innerHTML;
+    });
+
+    socket.on("CliTimeReset", (data) => {
+      time = --data;
+    });
+
+    //메인
+    console.log(roomId);
+    console.log(roomId == true, roomId == false);
+
+    // if (user.result == "ok") {
+    //   location.href = "/"
+    // }
+  } catch (err) {
+    //코어 값
+    // console.log(err.response.data.error)
+    document.getElementsByTagName("body")[0].innerHTML = "방 없음";
+  }
+})();

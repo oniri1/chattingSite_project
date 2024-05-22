@@ -6,6 +6,7 @@ import {
 } from "../mongoDB/mongoClient.js";
 
 const chatEleCreater = (data) => {
+  console.log("data", data);
   return `<div>${data.user}:${data.chat} , createdAt : ${data.createdAt}</div>`;
 };
 
@@ -52,8 +53,9 @@ export default (server) => {
               JSON.stringify({
                 roomId: id,
                 user: socket.id,
-                chat: data,
+                chat: data.chat,
                 createdAt: Date.now(),
+                fileName: data.fileName,
               })
             )
           ).insertedId,
