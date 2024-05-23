@@ -22,11 +22,7 @@ export default (server) => {
   // chat 네임스페이스 전용 이벤트
   room.on("connection", (socket) => {
     const roomIdStr = socket.handshake.query.roomId;
-    // console.log(roomIdStr);
-
     const id = +roomIdStr;
-
-    // console.log("id : ", id);
 
     //룸에 접속
     socket.join(id);
