@@ -57,25 +57,55 @@ const mongoGetDataOne = async (objData) => {
   }
 };
 
-// const andQuerymaker = async (oneObj, twoObj) => {
-//   try {
-//     return { $and: [{ ...oneObj }, { ...twoObj }] };
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-// (async () => {
-//   console.log(
-//     andQuerymaker(
-//       { roomId: 1 },
-//       {
-//         $and: [
-//           { createdAt: { $gte: 1715754779659 } }, //기준 - 1hour
-//           { createdAt: { $lte: 1715754780922 } }, //Date now 기준
-//         ],
-//       }
-//     )
-//   );
-// })();
+//
 
-export { connectToMongoDB, mongoAddData, mongoGetData, mongoGetDataOne };
+//recomment 추가
+const mongoAddRecomment = async (jsonData) => {
+  try {
+    const database = client.db("chatLog");
+    const collection = database.collection("recomments");
+
+    //JSON 변환
+    const data = JSON.parse(jsonData);
+
+    // console.log("MongoClient.js ADDfun data@@", data);
+
+    return await collection.insertOne({ ...data });
+  } catch (err) {
+    console.log("MongoAddRecomment FuncERR@@@@", err);
+  }
+};
+
+const mongoGetRecomment = async (objData) => {
+  try {
+    const database = client.db("chatLog");
+    const collection = database.collection("recomments");
+    const result = await collection.find({ ...objData }).toArray();
+
+    return result;
+  } catch (err) {
+    console.log("mongoGetRecomment Func Err@@@ mongoclient.js", err);
+  }
+};
+
+const mongoGetRecommentOne = async (objData) => {
+  try {
+    const database = client.db("chatLog");
+    const collection = database.collection("recomments");
+    const result = await collection.findOne({ ...objData });
+
+    return result;
+  } catch (err) {
+    console.log("mongoGetRecommentOne Func Err@@@ mongoclient.js", err);
+  }
+};
+
+export {
+  connectToMongoDB,
+  mongoAddData,
+  mongoGetData,
+  mongoGetDataOne,
+  mongoAddRecomment,
+  mongoGetRecomment,
+  mongoGetRecommentOne,
+};

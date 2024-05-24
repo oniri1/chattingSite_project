@@ -43,14 +43,17 @@ export default (server) => {
         // console.log(`${socket.id}:${data}`);
         // console.log(JSON.stringify(`"${socket.id":${data}}`));
 
+        //유저일 경우
         const MongoData = await mongoGetDataOne({
           _id: (
             await mongoAddData(
               JSON.stringify({
                 roomId: id,
-                user: socket.id,
-                chat: data.chat,
+                userId: socket.id,
+                ghostId: null,
+                content: data.chat,
                 createdAt: Date.now(),
+                deletedAt: false,
                 fileName: data.fileName,
               })
             )
@@ -60,6 +63,7 @@ export default (server) => {
         // mongoAddData(`{${socket.id}:${data}}`);
         //보내기
         room.to(id).emit("chat", chatEleCreater(MongoData));
+        //유저일경우 여기까지
       } catch (err) {
         console.log("roomsocket.js err@@@@", err);
       }
