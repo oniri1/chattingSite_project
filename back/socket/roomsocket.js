@@ -4,11 +4,17 @@ import {
   mongoGetData,
   mongoGetDataOne,
 } from "../mongoDB/mongoClient.js";
-import cookie from "cookie";
 
 const chatEleCreater = (data) => {
   console.log("data", data);
-  return `<div>${data.userId}:${data.content} , createdAt : ${data.createdAt}</div>`;
+
+  if (data.userId != null) {
+    data.name = data.userId;
+  } else {
+    data.name = data.ghostId;
+  }
+
+  return `<div>${data.name}:${data.content} , createdAt : ${data.createdAt}</div>`;
 };
 
 export default (server) => {
@@ -48,7 +54,8 @@ export default (server) => {
         if (!data.userName.user) data.userName.user = null;
 
         console.log(data);
-        //유저일 경우
+
+        //
         const MongoData = await mongoGetDataOne({
           _id: (
             await mongoAddData(
@@ -65,10 +72,8 @@ export default (server) => {
           ).insertedId,
         });
 
-        // mongoAddData(`{${socket.id}:${data}}`);
         //보내기
         room.to(id).emit("chat", chatEleCreater(MongoData));
-        //유저일경우 여기까지
       } catch (err) {
         console.log("roomsocket.js err@@@@", err);
       }
