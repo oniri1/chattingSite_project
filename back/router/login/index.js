@@ -19,6 +19,7 @@ router.post("/", async (req, res) => {
         signed: true,
         // path: "/",
       });
+      res.clearCookie("ghost");
       res.json({ redirect: "/" });
     } else {
       throw new Error("not match password");

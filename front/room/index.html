@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="UTF-8">
-  <title>colosseum</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title>colosseum</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
 
-<body>
-  <div id="chats"></div>
+  <body>
+    <div id="chats"></div>
 
-  <!-- 업로드 -->
-  <form id="chatDatasForm" method="post" enctype="multipart/form-data">
-    <input type="text" name="talk" id="talk">
-    <!-- <input type="file" id="imgInputer" name="img" accept="image/*" multiple /> -->
-    <input type="file" id="imgInputer" name="img" accept="image/*" />
+    <!-- 업로드 -->
+    <form id="chatDatasForm" method="post" enctype="multipart/form-data">
+      <input type="text" name="talk" id="talk">
+      <!-- <input type="file" id="imgInputer" name="img" accept="image/*" multiple /> -->
+      <input type="file" id="imgInputer" name="img" accept="image/*" />
 
-    <button id="sendBtn">서버로 보내기</button>
-    <button id="loadBtn">불러오기</button>
-  </form>
-
-
-  <script src="http://localhost:8080/socket.io/socket.io.js"></script>
-  <script src="./index.js"></script>
-  <!-- <script src="./index.js"></script> -->
+      <button id="sendBtn">서버로 보내기</button>
+      <button id="loadBtn">불러오기</button>
+    </form>
 
 
-</body>
+    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+    <script src="./index.js"></script>
+    <!-- <script src="./index.js"></script> -->
+
+
+  </body>
 
 </html>

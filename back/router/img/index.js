@@ -10,7 +10,7 @@ router.post("/", upload.single("img"), (req, res) => {
   if (req.file?.filename) {
     res.json({ fileName: req.file.filename });
   } else {
-    res.json({ fileName: "noFile" });
+    res.json({ fileName: null });
   }
 });
 

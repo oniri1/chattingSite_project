@@ -1,5 +1,18 @@
 (async () => {
   try {
+    //소켓용 쿠키
+    const userName = await (
+      await axios.post(
+        `http://localhost:8080/cookieCheck`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+    ).data;
+    console.log(userName);
+
+    //소켓
     const localhost = location.href;
     const roomIdStr = localhost.slice(localhost.lastIndexOf("/") + 1);
 
@@ -33,7 +46,7 @@
       formData.append("img", form.imgInputer.files[0]);
 
       const imgName = await (
-        await axios.post(`http://localhost:8080/write`, formData, {
+        await axios.post(`http://localhost:8080/img`, formData, {
           withCredentials: true,
           headers: { "Content-type": "multipart/form-data" },
         })
@@ -41,7 +54,11 @@
 
       console.log(imgName);
 
-      socket.emit("chatReply", { chat: talk.value, fileName: imgName });
+      socket.emit("chatReply", {
+        chat: talk.value,
+        fileName: imgName,
+        userName: userName,
+      });
     };
 
     document.getElementById("loadBtn").onclick = (e) => {

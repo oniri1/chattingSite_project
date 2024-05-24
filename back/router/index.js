@@ -5,6 +5,9 @@ import img from "./img/index.js";
 import login from "./login/index.js";
 import regist from "./regist/index.js";
 import logout from "./logout/index.js";
+import cookieChecker from "./cookieChecker/index.js";
+
+router.use("/cookieCheck", cookieChecker);
 
 router.use("/room", room);
 router.use("/img", img);

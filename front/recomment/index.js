@@ -12,15 +12,14 @@ cateListElem.innerHTML += `<option value="0">채널 선택</option>`;
 const tempArr = [];
 
 categoryList.forEach((item) => {
-  console.log(item);
+  console.log("item", item);
   item.categorys?.length && tempArr.push(...item.categorys);
 });
 
 console.log(tempArr);
 
 tempArr.forEach((item, idx) => {
-  item.isWrite &&
-    (cateListElem.innerHTML += `<option value="${idx}">${item.name}</option>`);
+  cateListElem.innerHTML += `<option value="${idx}">${item.name}</option>`;
 });
 
 ClassicEditor.create(document.querySelector("#editor")).catch((error) => {

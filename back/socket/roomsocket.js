@@ -4,10 +4,11 @@ import {
   mongoGetData,
   mongoGetDataOne,
 } from "../mongoDB/mongoClient.js";
+import cookie from "cookie";
 
 const chatEleCreater = (data) => {
   console.log("data", data);
-  return `<div>${data.user}:${data.chat} , createdAt : ${data.createdAt}</div>`;
+  return `<div>${data.userId}:${data.content} , createdAt : ${data.createdAt}</div>`;
 };
 
 export default (server) => {
@@ -43,14 +44,18 @@ export default (server) => {
         // console.log(`${socket.id}:${data}`);
         // console.log(JSON.stringify(`"${socket.id":${data}}`));
 
+        if (!data.userName.ghost) data.userName.ghost = null;
+        if (!data.userName.user) data.userName.user = null;
+
+        console.log(data);
         //유저일 경우
         const MongoData = await mongoGetDataOne({
           _id: (
             await mongoAddData(
               JSON.stringify({
                 roomId: id,
-                userId: socket.id,
-                ghostId: null,
+                userId: data.userName.user,
+                ghostId: data.userName.ghost,
                 content: data.chat,
                 createdAt: Date.now(),
                 deletedAt: false,
