@@ -1,7 +1,7 @@
 //몽고디비에 접속
 import { MongoClient } from "mongodb";
 
-let client;
+export let client;
 
 const connectToMongoDB = async (mongoUrl) => {
   try {

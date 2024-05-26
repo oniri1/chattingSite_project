@@ -1,12 +1,14 @@
 (async () => {
   try {
     const data = await axios.post(
-      `http://localhost:8080/login`,
-      { email: "qwer3", pw: "1234" },
+      `http://localhost:8080/api/room/make`,
+      { title: "testTitle", tag: 1 },
       {
         withCredentials: true,
       }
     );
+
+    console.log(data.data.data);
 
     if (data.data.redirect) location.href = data.data.redirect;
     if (data.data.error) console.error("error : ", data.data.error);
