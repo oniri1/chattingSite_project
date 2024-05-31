@@ -2,7 +2,7 @@
   try {
     const data = await axios.post(
       `http://localhost:8080/login`,
-      { email: "qwer3", pw: "1234" },
+      { email: "qwer4", pw: "1234" },
       {
         withCredentials: true,
       }

@@ -1,22 +1,27 @@
 import { Router } from "express";
-const router = Router();
 import { Rooms } from "../../../mySQL/models/index.js";
-import { client } from "../../../mongoDB/mongoClient.js";
+import {
+  client,
+  mongoAddRecomment,
+  mongoGetDataOne,
+} from "../../../mongoDB/mongoClient.js";
+import { ObjectId } from "mongodb";
+
+const router = Router();
 
 router.post("/rooms", async (req, res) => {
   try {
-    console.log("highrooms");
     const database = client.db("chatLog");
     const collection = database.collection("chats");
 
     let nowtime = Date.now();
 
-    console.log(nowtime);
+    // console.log(nowtime);
 
     const tempArr = await collection
       .find({
         $and: [
-          { createdAt: { $gte: nowtime - 360000000 } }, //기준 - 12hour
+          { createdAt: { $gte: nowtime - 360000000 } }, //기준 - 100hour
         ],
       })
       .toArray();
@@ -27,18 +32,17 @@ router.post("/rooms", async (req, res) => {
     for (const { roomId } of tempArr) {
       //   console.log(dupliNum[roomId]);
       if (countArr[roomId] == undefined) {
-        console.log("hi");
         countArr[roomId] = { roomId: roomId, count: 1 };
       } else {
         countArr[roomId].count++;
       }
     }
 
-    console.log(countArr);
     countArr.sort((a, b) => b.count - a.count);
     countArr.pop();
-    countArr = countArr.slice(0, 10);
-    console.log(countArr);
+    countArr = countArr.slice(0, 5);
+
+    console.log("countArr", countArr);
 
     const data = [];
 
@@ -64,5 +68,53 @@ router.post("/rooms", async (req, res) => {
     console.log(err);
   }
 });
-router.post("/", (req, res) => {});
+router.post("/recomments", async (req, res) => {
+  try {
+    const database = client.db("chatLog");
+    const collection = database.collection("recomments");
+
+    let nowtime = Date.now();
+
+    console.log(nowtime);
+
+    const tempArr = await collection
+      .find({
+        $and: [
+          { createdAt: { $gte: nowtime - 360000000 } }, //기준 - 100hour
+        ],
+      })
+      .toArray();
+
+    let countArr = [];
+
+    //받아온 값들 카운팅 해주는 코드
+    let forValue = 0;
+    for (const { chatId } of tempArr) {
+      if (countArr[chatId] == undefined) {
+        countArr[chatId] = { index: forValue };
+        countArr[forValue] = { chatId: chatId, count: 1 };
+        forValue++;
+      } else {
+        countArr[countArr[chatId].index].count++;
+      }
+    }
+
+    countArr.sort((a, b) => b.count - a.count);
+    countArr = countArr.slice(0, 5);
+
+    console.log(countArr);
+
+    const data = [];
+    for (const { chatId } of countArr) {
+      const temp = await mongoGetDataOne({
+        _id: new ObjectId(chatId),
+      });
+      data.push(temp);
+    }
+
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
 export default router;

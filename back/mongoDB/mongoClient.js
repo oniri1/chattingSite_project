@@ -49,6 +49,8 @@ const mongoGetDataOne = async (objData) => {
   try {
     const database = client.db("chatLog");
     const collection = database.collection("chats");
+
+    console.log({ ...objData });
     const result = await collection.findOne({ ...objData });
 
     return result;

@@ -8,29 +8,54 @@ router.post("/ran", async (req, res) => {
   try {
     const tempRanNum = Math.floor(Math.random() * 10) + 1;
     let roomValue = req.body.roomValue + tempRanNum;
+    const tag = req.body.tag;
 
     //클라 숫자 + 랜덤 숫자
     console.log(roomValue);
+    console.log(tag);
 
     let temp;
 
-    for (let breaker = false; breaker != true; ) {
-      temp = await Rooms.findAll({
-        attributes: ["id", "title", "tag"],
-        limit: 1,
-        offset: roomValue,
-      });
+    if (tag == 0) {
+      for (let breaker = false; breaker != true; ) {
+        temp = await Rooms.findAll({
+          attributes: ["id", "title", "tag"],
+          limit: 1,
+          offset: roomValue,
+        });
 
-      console.log("반복 중!", roomValue);
+        console.log("반복 중!", roomValue);
 
-      //만약 아무것도 못찾았으면 방의 끝까지 갔다는 소리
-      if (temp[0] == undefined) {
-        //다시 0으로 돌아오기
-        roomValue = 0;
-        // console.log("새로운 값!", roomValue);
-      } else {
-        //무언가 찾았을 경우
-        breaker = true;
+        //만약 아무것도 못찾았으면 방의 끝까지 갔다는 소리
+        if (temp[0] == undefined) {
+          //다시 0으로 돌아오기
+          roomValue = 0;
+          // console.log("새로운 값!", roomValue);
+        } else {
+          //무언가 찾았을 경우
+          breaker = true;
+        }
+      }
+    } else {
+      for (let breaker = false; breaker != true; ) {
+        temp = await Rooms.findAll({
+          where: { tag: tag },
+          attributes: ["id", "title", "tag"],
+          limit: 1,
+          offset: roomValue,
+        });
+
+        console.log("반복 중!", roomValue);
+
+        //만약 아무것도 못찾았으면 방의 끝까지 갔다는 소리
+        if (temp[0] == undefined) {
+          //다시 0으로 돌아오기
+          roomValue = 0;
+          // console.log("새로운 값!", roomValue);
+        } else {
+          //무언가 찾았을 경우
+          breaker = true;
+        }
       }
     }
 
@@ -78,7 +103,6 @@ router.post("/make", async (req, res) => {
 
       //삭제되거나 없는 닉네임 쿠키로 시도할 경우
       if (userDB == undefined || userDB.deletedAt != null) {
-        console.log("hacker setting cookie");
         throw new Error("deleted User");
       }
 

@@ -1,12 +1,14 @@
 (async () => {
   try {
     const data = await axios.post(
-      `http://localhost:8080/regist`,
-      { email: "qwer4", pwCk: "1234", pw: "1234", name: "manyi132" },
+      `http://localhost:8080/user/get/recomments`,
+      { title: "testTitle", tag: 1 },
       {
         withCredentials: true,
       }
     );
+
+    console.log(data.data.data);
 
     if (data.data.redirect) location.href = data.data.redirect;
     if (data.data.error) console.error("error : ", data.data.error);

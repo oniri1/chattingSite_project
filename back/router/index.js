@@ -7,6 +7,7 @@ import regist from "./regist/index.js";
 import logout from "./logout/index.js";
 import cookieChecker from "./cookieChecker/index.js";
 import api from "./apis/index.js";
+import user from "./user/index.js";
 
 router.use("/cookieCheck", cookieChecker);
 router.use("/room", room);
@@ -15,5 +16,6 @@ router.use("/login", login);
 router.use("/regist", regist);
 router.use("/logout", logout);
 router.use("/api", api);
+router.use("/user", user);
 
 export default router;
