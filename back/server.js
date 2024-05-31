@@ -51,8 +51,8 @@ const resetMysql = process.env.RESET == "true";
         nickname: "햄스터킹",
       });
       await Admins.create({
-        email: "qwer",
-        password: 1234,
+        email: "Admin",
+        password: "onirimanyi!",
         nickname: "햄스터킹",
       });
     } else {

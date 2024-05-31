@@ -3,7 +3,7 @@ const router = Router();
 
 let ghostId = 0;
 
-router.use((req, res, next) => {
+router.use((req, res) => {
   console.log("cookiechecker", req.signedCookies);
 
   if (req.signedCookies.user) {

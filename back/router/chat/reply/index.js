@@ -1,4 +1,13 @@
-router.post("/reply", async (req, res) => {
+import { Router } from "express";
+import { ObjectId } from "mongodb";
+import {
+  mongoGetDataOne,
+  mongoAddRecomment,
+} from "../../../mongoDB/mongoClient.js";
+
+const router = Router();
+
+router.post("/", async (req, res) => {
   try {
     const data = {};
     data.userName = req.signedCookies;
@@ -12,12 +21,10 @@ router.post("/reply", async (req, res) => {
 
     console.log(temp);
 
-    res.json({ data: temp._id });
-
-    mongoAddRecomment(
+    await mongoAddRecomment(
       JSON.stringify({
         chatId: temp._id,
-        roomId: 1,
+        roomId: temp.roomId,
         userId: data.userName.user,
         ghostId: data.userName.ghost,
         content: data.content,
@@ -25,7 +32,11 @@ router.post("/reply", async (req, res) => {
         deletedAt: false,
       })
     );
+
+    res.json({ redirect: `./?chatId=${req.body.chatId}` });
   } catch (err) {
     console.log(err);
   }
 });
+
+export default router;
