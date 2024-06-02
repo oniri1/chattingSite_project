@@ -22,19 +22,11 @@
       <nav class="nav-bar" id="user-info">
         <ul>
           <li>
-            <a href="./index.html" class="">홈</a>
+            <a href="/regist" class="">회원가입</a>
           </li>
-          <!-- <li>
-            <a href="" class="">고객지원</a>
-          </li>
+
           <li>
-            <a href="" class="">Contact Us</a>
-          </li> -->
-          <!-- <li>
-            <a href="./user/mypage.html" class=""></a>
-          </li> -->
-          <li>
-            <a href="./login/login.html" class="">로그인</a>
+            <a href="/login" class="">로그인</a>
           </li>
         </ul>
       </nav>
@@ -42,9 +34,9 @@
 
     <div class="container">
       <div id="search">
-        <form class="box" action="">
-          <input type="text" placeholder="검색할 내용을 입력해주세요." style="flex: 1" />
-          <input type="submit" value="채팅방 찾기" />
+        <form id="searchs" class="box" action="">
+          <input id="searchValue" type="text" placeholder="검색할 내용을 입력해주세요." style="flex: 1" />
+          <input id="searchBtn" type="submit" value="채팅방 찾기" />
         </form>
       </div>
       <div id="today-issue">
@@ -88,7 +80,7 @@
                 <div class="bgi"></div>
                 <div class="status">
                   <div class="tag"># 공지사항</div>
-                  <div class="host">닉네임:존재하지않는씹상남자관리자
+                  <div class="host">존재를부정하는씹상남자관리자
                   </div>
                   <button class="enter">공지를 하는건 나약하다.</button>
                 </div>
@@ -102,10 +94,10 @@
     <!-- 룸 만들기 -->
     <div class="body">
       <div class="list-box">
-        <form action="" class="write">
+        <form id="makeRoomForm" action="" class="write">
           <h3>게시글 작성</h3>
           <select name="category" id="category"></select>
-          <input type="text" name="title" placeholder="방 제목을 입력해주세요." />
+          <input id="roomTitle" type="text" name="title" placeholder="방 제목을 입력해주세요." />
 
           <div class="icons"></div>
           <div class="btns">
@@ -118,6 +110,7 @@
     <script src="./obServer.js"></script>
     <script src="./index.js"></script>
     <script src="./makeroom.js"></script>
+
 
     <!-- <script src="./clicker.js"></script> -->
   </body>

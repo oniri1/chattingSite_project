@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
       });
 
       let temp = false;
-      console.log("query", req.query.roomId);
+      // console.log("query", req.query.roomId);
       for (const { id } of rooms) {
         if (id == req.query.roomId) temp = true;
       }

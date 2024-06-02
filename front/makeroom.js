@@ -18,5 +18,5 @@ categoryList.forEach((item) => {
 });
 
 tempArr.forEach((item, idx) => {
-  cateListElem.innerHTML += `<option value="${idx}">${item.name}</option>`;
+  cateListElem.innerHTML += `<option value="${idx + 1}">${item.name}</option>`;
 });

@@ -25,4 +25,20 @@ router.post("/kill", async (req, res) => {
   }
 });
 
+router.post("/info", async (req, res) => {
+  try {
+    const user = req.signedCookies.user;
+
+    if (user != undefined) {
+      const userInfo = await Users.findOne({ where: { nickname: user } });
+
+      res.json({ user: userInfo.nickname });
+    } else {
+      res.json("no user");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export default router;

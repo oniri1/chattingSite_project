@@ -11,8 +11,8 @@ router.post("/ran", async (req, res) => {
     const tag = req.body.tag;
 
     //클라 숫자 + 랜덤 숫자
-    console.log(roomValue);
-    console.log(tag);
+    // console.log(roomValue);
+    // console.log(tag);
 
     let temp;
 
@@ -24,7 +24,7 @@ router.post("/ran", async (req, res) => {
           offset: roomValue,
         });
 
-        console.log("반복 중!", roomValue);
+        // console.log("반복 중!", roomValue);
 
         //만약 아무것도 못찾았으면 방의 끝까지 갔다는 소리
         if (temp[0] == undefined) {
@@ -45,7 +45,7 @@ router.post("/ran", async (req, res) => {
           offset: roomValue,
         });
 
-        console.log("반복 중!", roomValue);
+        // console.log("반복 중!", roomValue);
 
         //만약 아무것도 못찾았으면 방의 끝까지 갔다는 소리
         if (temp[0] == undefined) {
@@ -80,7 +80,7 @@ router.post("/search", async (req, res) => {
       attributes: ["id", "title", "tag"],
     });
 
-    console.log(temp);
+    // console.log(temp);
 
     if (temp[0] != undefined) {
       res.json({ data: temp });
@@ -97,7 +97,7 @@ router.post("/make", async (req, res) => {
     if (req.signedCookies.user != undefined) {
       const user = req.signedCookies.user;
 
-      console.log(user);
+      // console.log(user);
 
       let userDB = await Users.findOne({
         where: { nickname: user },
@@ -108,13 +108,13 @@ router.post("/make", async (req, res) => {
         throw new Error("deleted User");
       }
 
-      Rooms.create({
+      const roomCreate = await Rooms.create({
         userId: userDB.id,
         title: req.body.title,
         tag: req.body.tag,
       });
 
-      res.json({ redirect: "/" });
+      res.json({ redirect: `/room/?roomId=${roomCreate.id}` });
     }
   } catch (err) {
     console.log(err);

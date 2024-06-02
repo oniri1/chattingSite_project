@@ -44,7 +44,7 @@ router.post("/rooms", async (req, res) => {
 
     countArr = countArr.slice(0, 5);
 
-    console.log("countArr", countArr);
+    // console.log("countArr", countArr);
 
     const data = [];
 
@@ -61,7 +61,7 @@ router.post("/rooms", async (req, res) => {
       data.push(a);
     }
 
-    console.log(data);
+    // console.log(data);
 
     res.json([...data]);
 
@@ -80,7 +80,7 @@ router.post("/recomments", async (req, res) => {
 
     let nowtime = Date.now();
 
-    console.log(nowtime);
+    // console.log(nowtime);
 
     const tempArr = await collection
       .find({
@@ -107,7 +107,7 @@ router.post("/recomments", async (req, res) => {
     countArr.sort((a, b) => b.count - a.count);
     countArr = countArr.slice(0, 5);
 
-    console.log(countArr);
+    // console.log(countArr);
 
     const data = [];
     for (const { chatId } of countArr) {

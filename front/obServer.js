@@ -1,5 +1,7 @@
 (async () => {
   try {
+    console.log(document.cookies);
+
     //하이라이트 룸
     let roomData = [];
 
@@ -47,23 +49,26 @@
           roomValue = roomData[0].roomValue;
         }
 
-        lastroom = entries[0];
-        if (!lastroom.isIntersecting) return;
-        roomData.forEach(() => {
-          console.log(roomData[0]);
-          loadNewRoom(roomData[0]);
+        if (roomData[0] == undefined) {
+          lastroom = entries[0];
+          lastroomObserver.unobserve(lastroom.target);
+        } else {
+          lastroom = entries[0];
+          if (!lastroom.isIntersecting) return;
+          roomData.forEach(() => {
+            console.log(roomData[0]);
+            loadNewRoom(roomData[0]);
 
-          roomData.splice(0, 1);
-        });
+            roomData.splice(0, 1);
+          });
 
-        lastroomObserver.unobserve(lastroom.target);
+          lastroomObserver.unobserve(lastroom.target);
 
-        const a = document.getElementsByClassName("room");
-        const lastRoomElem = a[a.length - 1];
+          const a = document.getElementsByClassName("room");
+          const lastRoomElem = a[a.length - 1];
 
-        lastroomObserver.observe(lastRoomElem);
-
-        // console.log(document.querySelector(".room:last-child"));
+          lastroomObserver.observe(lastRoomElem);
+        }
       },
       { threshold: 0.3 }
     );
@@ -73,6 +78,7 @@
     const tag2 = document.getElementById("tab02");
     const tag3 = document.getElementById("tab03");
     const tag4 = document.getElementById("tab04");
+    const searchBtn = document.getElementById("searchBtn");
 
     tag1.onclick = (e) => {
       tagValueForServer = 0;
@@ -98,23 +104,6 @@
         roombox.removeChild(roombox.lastChild);
       }
 
-      for (let i = 0; true; ) {
-        if (i != roomData.length) {
-          if (roomData[i].tag != 1) {
-            // i = 1 , roomData[{2}] roomData[1] => // 1값 오류가 생기는 이유? 인덱스 0 뿐인데 1을 찾으니까 -> arr.length = 1  != i = 1
-
-            roomData.splice(i, 1);
-          } else {
-            if (i + 1 >= roomData.length) {
-              break;
-            }
-            i++;
-          }
-        } else {
-          break;
-        }
-      }
-
       lastroomObserver.observe(document.querySelector(".room:last-child"));
     };
     tag3.onclick = (e) => {
@@ -126,21 +115,6 @@
 
       while (roombox.children[1]) {
         roombox.removeChild(roombox.lastChild);
-      }
-
-      for (let i = 0; true; ) {
-        if (i != roomData.length) {
-          if (roomData[i].tag != 2) {
-            roomData.splice(i, 1);
-          } else {
-            if (i + 1 >= roomData.length) {
-              break;
-            }
-            i++;
-          }
-        } else {
-          break;
-        }
       }
 
       lastroomObserver.observe(document.querySelector(".room:last-child"));
@@ -157,22 +131,61 @@
         roombox.removeChild(roombox.lastChild);
       }
 
-      for (let i = 0; true; ) {
-        if (i != roomData.length) {
-          if (roomData[i].tag != 3) {
-            roomData.splice(i, 1);
-          } else {
-            if (i + 1 >= roomData.length) {
-              break;
-            }
-            i++;
-          }
-        } else {
-          break;
-        }
-      }
-
       lastroomObserver.observe(document.querySelector(".room:last-child"));
+    };
+
+    searchBtn.onclick = async (e) => {
+      try {
+        e.preventDefault();
+
+        const searchValue = document.forms.searchs.searchValue.value;
+
+        if (searchValue != "") {
+          let searchArr = await (
+            await axios.post(
+              "http://localhost:8080/api/room/search", //url
+              { title: searchValue }, //body
+              {
+                //options
+                withCredentials: true,
+              }
+            )
+          ).data.data;
+
+          console.log(searchArr);
+
+          searchArr.forEach(() => {
+            loadNewRoom(searchArr[0]);
+            searchArr.splice(0, 1);
+          });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const makeRoomForm = document.forms.makeRoomForm;
+    const makeRoomBtn = makeRoomForm.submit;
+    makeRoomBtn.onclick = async (e) => {
+      try {
+        e.preventDefault();
+
+        const roomTag = makeRoomForm.category.value;
+        const roomTitle = makeRoomForm.roomTitle.value;
+
+        if (roomTag != 0 || roomTitle != "") {
+          const data = await axios.post(
+            "http://localhost:8080/api/room/make",
+            { title: roomTitle, tag: roomTag },
+            { withCredentials: true }
+          );
+
+          if (data.data.redirect) location.href = data.data.redirect;
+        } else {
+        }
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     //윗줄
@@ -207,7 +220,7 @@
         <div class="bgi"></div>
         <div class="status">
           <div class="tag"># ${tagName}</div>
-          <div class="host">닉네임:경일게임아카데미</div>
+          <div class="host">태그(업데이트 예정)</div>
           <a href="/room/?roomId=${roomId}"><button class="enter">입장하기</button></a>
         </div>
       </div>
