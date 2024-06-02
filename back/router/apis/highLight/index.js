@@ -21,7 +21,7 @@ router.post("/rooms", async (req, res) => {
     const tempArr = await collection
       .find({
         $and: [
-          { createdAt: { $gte: nowtime - 360000000 } }, //기준 - 100hour
+          { createdAt: { $gte: nowtime - 360000000 * 10 } }, //기준 - 1000hour
         ],
       })
       .toArray();
@@ -61,13 +61,16 @@ router.post("/rooms", async (req, res) => {
 
     console.log(data);
 
-    res.json({ ...data });
+    res.json([...data]);
 
     // res.json({});
   } catch (err) {
     console.log(err);
   }
 });
+
+//
+
 router.post("/recomments", async (req, res) => {
   try {
     const database = client.db("chatLog");
@@ -80,7 +83,7 @@ router.post("/recomments", async (req, res) => {
     const tempArr = await collection
       .find({
         $and: [
-          { createdAt: { $gte: nowtime - 360000000 } }, //기준 - 100hour
+          { createdAt: { $gte: nowtime - 360000000 * 10 } }, //기준 - 1000hour
         ],
       })
       .toArray();

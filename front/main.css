@@ -265,7 +265,7 @@ input[id="tab04"]:checked ~ .con4 {
   width: 40%;
   height: 160px;
   /* border: 1px solid black; */
-  background: url(/Front/img/FightGladiator.jpeg) no-repeat center center;
+  background: url(./img/FightGladiator.jpeg) no-repeat center center;
   background-size: cover;
   border: 1px solid azure;
   border-radius: 5px;

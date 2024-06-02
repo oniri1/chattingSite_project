@@ -1,5 +1,3 @@
-let roomValue = 0;
-
 (async () => {
   try {
     const data = await axios.post(
@@ -11,11 +9,5 @@ let roomValue = 0;
     );
 
     roomValue = data.data.roomValue;
-    console.log(data);
-
-    console.log(roomValue);
-    if (data.data.redirect) location.href = data.data.redirect;
-    if (data.data.error) console.error("error : ", data.data.error);
-    if (data.data.result) console.log("result : ", data.data.result);
   } catch (err) {}
 })();
