@@ -6,6 +6,7 @@
     let roomValue = 0;
     let tagValueForServer = 0;
 
+    console.log("하이 룸@@");
     //하이라이트 룸
     let highLightRoom = await (
       await axios.post(
@@ -18,6 +19,7 @@
       )
     ).data;
 
+    console.log("하이 댓글@@");
     //하이라이트 댓글
     let highLightChat = await (
       await axios.post(

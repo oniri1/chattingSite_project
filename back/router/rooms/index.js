@@ -4,20 +4,28 @@ const router = Router();
 
 router.post("/", async (req, res) => {
   try {
-    const rooms = await Rooms.findAll({ attributes: ["id"] });
-
-    let temp = false;
-    console.log(req.query.roomId);
-    for (const { id } of rooms) {
-      if (id == req.query.roomId) temp = true;
-    }
-
-    if (temp) {
-      res.json({ roomId: req.query.roomId });
-    } else {
-      console.log("err");
+    if (req.query.roomId == undefined) {
       res.status(405);
       res.json({ error: "no room" });
+    } else {
+      const rooms = await Rooms.findAll({
+        where: { id: req.query.roomId },
+        attributes: ["id"],
+      });
+
+      let temp = false;
+      console.log("query", req.query.roomId);
+      for (const { id } of rooms) {
+        if (id == req.query.roomId) temp = true;
+      }
+
+      if (temp) {
+        res.json({ roomId: req.query.roomId });
+      } else {
+        console.log("err");
+        res.status(405);
+        res.json({ error: "no room" });
+      }
     }
   } catch (err) {
     console.log(err);

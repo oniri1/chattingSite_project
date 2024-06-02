@@ -38,8 +38,10 @@ router.post("/rooms", async (req, res) => {
       }
     }
 
+    //빈 배열 삭제
+    countArr = countArr.filter((n) => n);
     countArr.sort((a, b) => b.count - a.count);
-    countArr.pop();
+
     countArr = countArr.slice(0, 5);
 
     console.log("countArr", countArr);
