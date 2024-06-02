@@ -1,27 +1,12 @@
 (async () => {
   try {
     //하이라이트 룸
-    let roomData = [
-      { roomId: 1, title: "HI32", tag: 1 },
-      { roomId: 2, title: "HI34", tag: 2 },
-      { roomId: 3, title: "HI35", tag: 3 },
-      { roomId: 4, title: "HI36", tag: 3 },
-      { roomId: 5, title: "HI37", tag: 3 },
-    ];
+    let roomData = [];
 
     let roomValue = 0;
     let tagValueForServer = 0;
 
-    let check = await axios.post(
-      "http://localhost:8080/api/room/ran",
-      { roomValue: roomValue, tag: tagValueForServer },
-      { withCredentials: true }
-    );
-
-    roomValue = check.data.roomValue;
-
-    console.log(check);
-
+    //하이라이트 룸
     let highLightRoom = await (
       await axios.post(
         "http://localhost:8080/api/highLight/rooms", //url
@@ -42,21 +27,28 @@
       )
     ).data;
 
-    //옵저버 실행 조건
-    // const observer = new IntersectionObserver(() => {}, {
-    //   threshold: 0.3,
-    // });
-
     let lastroom;
 
     //옵저버 실행 코드
     const lastroomObserver = new IntersectionObserver(
       async (entries) => {
         console.log("obs 실행 중");
+        if (roomData[0] == undefined) {
+          roomData = await (
+            await axios.post(
+              "http://localhost:8080/api/room/ran",
+              { roomValue: roomValue, tag: tagValueForServer },
+              { withCredentials: true }
+            )
+          ).data;
+
+          roomValue = roomData[0].roomValue;
+        }
 
         lastroom = entries[0];
         if (!lastroom.isIntersecting) return;
         roomData.forEach(() => {
+          console.log(roomData[0]);
           loadNewRoom(roomData[0]);
 
           roomData.splice(0, 1);
@@ -82,15 +74,6 @@
 
     tag1.onclick = (e) => {
       tagValueForServer = 0;
-      if (roomData[0] == undefined) {
-        roomData = [
-          { roomId: 1, title: "HI32", tag: 1 },
-          { roomId: 2, title: "HI34", tag: 2 },
-          { roomId: 3, title: "HI35", tag: 3 },
-          { roomId: 4, title: "HI36", tag: 3 },
-          { roomId: 5, title: "HI37", tag: 3 },
-        ];
-      }
 
       const roombox = document.getElementById("roomShower");
 
@@ -101,22 +84,9 @@
       }
 
       lastroomObserver.observe(document.querySelector(".room:last-child"));
-
-      // rooms.forEach((room) => {
-      //   observer.observe(room);
-      // });
     };
     tag2.onclick = (e) => {
       tagValueForServer = 1;
-      if (roomData[0] == undefined) {
-        roomData = [
-          { roomId: 1, title: "HI32", tag: 1 },
-          { roomId: 2, title: "HI34", tag: 2 },
-          { roomId: 3, title: "HI35", tag: 3 },
-          { roomId: 4, title: "HI36", tag: 3 },
-          { roomId: 5, title: "HI37", tag: 3 },
-        ];
-      }
 
       const roombox = document.getElementById("roomShower");
 
@@ -147,15 +117,6 @@
     };
     tag3.onclick = (e) => {
       tagValueForServer = 2;
-      if (roomData[0] == undefined) {
-        roomData = [
-          { roomId: 1, title: "HI32", tag: 1 },
-          { roomId: 2, title: "HI34", tag: 2 },
-          { roomId: 3, title: "HI35", tag: 3 },
-          { roomId: 4, title: "HI36", tag: 3 },
-          { roomId: 5, title: "HI37", tag: 3 },
-        ];
-      }
 
       const roombox = document.getElementById("roomShower");
 
@@ -185,15 +146,6 @@
     //
     tag4.onclick = (e) => {
       tagValueForServer = 3;
-      if (roomData[0] == undefined) {
-        roomData = [
-          { roomId: 1, title: "HI32", tag: 1 },
-          { roomId: 2, title: "HI34", tag: 2 },
-          { roomId: 3, title: "HI35", tag: 3 },
-          { roomId: 4, title: "HI36", tag: 3 },
-          { roomId: 5, title: "HI37", tag: 3 },
-        ];
-      }
 
       const roombox = document.getElementById("roomShower");
 
@@ -232,10 +184,6 @@
 
     lastroomObserver.observe(document.querySelector(".room:last-child"));
 
-    // rooms.forEach((room) => {
-    //   observer.observe(room);
-    // });
-
     const roomContainer = document.querySelector(".room-container");
 
     const loadNewRoom = (data) => {
@@ -258,7 +206,7 @@
         <div class="status">
           <div class="tag"># ${tagName}</div>
           <div class="host">닉네임:경일게임아카데미</div>
-          <button class="enter">입장하기</button>
+          <a href="/room/?roomId=${roomId}"><button class="enter">입장하기</button></a>
         </div>
       </div>
     </div>

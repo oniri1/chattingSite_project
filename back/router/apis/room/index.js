@@ -59,12 +59,14 @@ router.post("/ran", async (req, res) => {
       }
     }
 
-    res.json({
-      roomId: temp[0].id,
-      title: temp[0].title,
-      tag: temp[0].tag,
-      roomValue: roomValue,
-    });
+    res.json([
+      {
+        roomId: temp[0].id,
+        title: temp[0].title,
+        tag: temp[0].tag,
+        roomValue: roomValue,
+      },
+    ]);
   } catch (err) {
     console.log(err);
   }
