@@ -4,7 +4,8 @@ hamburger.onclick = function () {
   navBar.classList.toggle("active");
 };
 
-function setupTabs() {
+//탭 셋업
+const setupTabs = () => {
   document.querySelectorAll(".tabs__button").forEach((button) => {
     button.addEventListener("click", () => {
       const sideBar = button.parentElement;
@@ -26,8 +27,9 @@ function setupTabs() {
       tabToActivate.classList.add("tabs__content--active");
     });
   });
-}
+};
 
+//탭 클릭 이벤트 셋업
 document.addEventListener("DOMContentLoaded", () => {
   setupTabs();
 
@@ -36,11 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+//유저 navbar
 const userinfoElem = document.getElementById("user-info");
 (async () => {
   const user = (
     await axios.post(
-      "http://localhost:3000/user/info", //url
+      "http://localhost:8080/user/info", //url
       {}, //body
       {
         //options
@@ -53,106 +56,19 @@ const userinfoElem = document.getElementById("user-info");
   if (user.user) {
     userinfoElem.innerHTML = `<ul>
     <li>
-      <a href="./index.html" class="">홈</a>
+      <a href="/" class="">메인 페이지</a>
     </li>
     <li>
-      <a href="" class="">고객지원</a>
+        <a href="./" class="">${user.user}</a>
     </li>
     <li>
-      <a href="" class="">Contact Us</a>
-    </li>
-    <li>
-      <a href="" class="">마이페이지</a>
-    </li>
-    <li>
-        <a href="" class="">${user.user}</a>
-    </li>
-    <li>
-      <a href="#" class="">로그아웃</a>
+      <a href="/logout" class="">로그아웃</a>
     </li>
   </ul>`;
   }
 })();
 
-const observer = new IntersectionObserver(() => {}, {
-  threshold: 0.3,
-});
-
-let lastroom;
-let tagValueForServer = 0;
-
-const lastroomObserver = new IntersectionObserver(async (entries) => {
-  lastroom = entries[0];
-  if (!lastroom.isIntersecting) return;
-  roomData.forEach(() => {
-    loadNewRoom(roomData[0]);
-
-    roomData.splice(0, 1);
-    console.log(roomData[0] == undefined);
-  });
-
-  lastroomObserver.unobserve(lastroom.target);
-  // console.log(lastroom.target, roomData);
-  lastroomObserver.observe(document.querySelector(".room:last-child"));
-}, {});
-
-// let roomData = axios
-let roomData = [
-  { roomId: 1, title: "HI32", tag: 1 },
-  { roomId: 2, title: "HI34", tag: 2 },
-  { roomId: 3, title: "HI35", tag: 3 },
-  { roomId: 3, title: "HI35", tag: 3 },
-  { roomId: 3, title: "HI35", tag: 3 },
-];
-
-let replyData = [
-  { recommentId: 1, reply: "쫄?", tag: 1 },
-  { recommentId: 2, reply: "쫄?1", tag: 2 },
-  { recommentId: 3, reply: "쫄?2", tag: 3 },
-  { recommentId: 3, reply: "쫄?3", tag: 3 },
-  { recommentId: 3, reply: "쫄?4", tag: 3 },
-];
-
-//클릭 이벤트
-const tab = document.getElementById("tab1");
-
-tab.onclick = (e) => {
-  tagValueForServer = 0;
-  if (roomData[0] == undefined) {
-    roomData = [
-      { roomId: 1, title: "HI32", tag: 1 },
-      { roomId: 2, title: "HI34", tag: 2 },
-      { roomId: 3, title: "HI35", tag: 3 },
-    ];
-  }
-
-  console.log("전체 태그 클릭", e);
-
-  const roombox = document.getElementById("roomShower");
-
-  lastroomObserver.unobserve(lastroom.target);
-
-  while (roombox.children[1]) {
-    roombox.removeChild(roombox.lastChild);
-  }
-
-  lastroomObserver.observe(document.querySelector(".room:last-child"));
-
-  rooms.forEach((room) => {
-    observer.observe(room);
-  });
-};
-
-const rooms = document.querySelectorAll(".room");
-
-lastroomObserver.observe(document.querySelector(".room:last-child"));
-
-rooms.forEach((room) => {
-  observer.observe(room);
-});
-
-const roomContainer = document.querySelector(".room-container");
-
+//룸 만들기 펑션
 const loadNewRoom = (data) => {
   const { roomId, title, tag } = data;
 
@@ -172,7 +88,7 @@ const loadNewRoom = (data) => {
         <div class="bgi"></div>
         <div class="status">
           <div class="tag"># ${tagName}</div>
-          <div class="host">닉네임:경일게임아카데미</div>
+          <div class="host">태그 (업데이트 예정)</div>
           <button class="enter">입장하기</button>
           <button class="delete">삭제하기</button>
         </div>
@@ -180,5 +96,29 @@ const loadNewRoom = (data) => {
     </div>
   </div>`;
 
+  const roomContainer = document.getElementById("tab1");
   roomContainer.innerHTML += room;
 };
+
+//내 방
+(async () => {
+  let roomData = await (
+    await axios.post(
+      "http://localhost:8080/user/get/rooms",
+      {},
+      { withCredentials: true }
+    )
+  ).data.Rooms;
+
+  roomData.forEach((e) => {
+    loadNewRoom(e);
+  });
+
+  let recomment = await axios.post(
+    "http://localhost:8080/user/get/recomments",
+    {},
+    { withCredentials: true }
+  );
+
+  console.log(recomment.data);
+})();

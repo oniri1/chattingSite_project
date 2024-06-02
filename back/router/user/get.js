@@ -8,7 +8,7 @@ import { mongoGetRecomment } from "../../mongoDB/mongoClient.js";
 
 router.post("/rooms", async (req, res) => {
   try {
-    const user = await Users.findOne({
+    const user = await Users.findAll({
       where: { nickname: req.signedCookies.user },
       include: [
         {
@@ -18,9 +18,9 @@ router.post("/rooms", async (req, res) => {
       ],
     });
 
-    console.log(user.Rooms);
+    console.log(user);
 
-    res.json({ data: user.Rooms });
+    res.json(...user);
   } catch (err) {
     res.json(err.message);
   }
