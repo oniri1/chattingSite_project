@@ -43,26 +43,36 @@
     ).data;
 
     //옵저버 실행 조건
-    const observer = new IntersectionObserver(() => {}, {
-      threshold: 0.3,
-    });
+    // const observer = new IntersectionObserver(() => {}, {
+    //   threshold: 0.3,
+    // });
 
     let lastroom;
 
     //옵저버 실행 코드
-    const lastroomObserver = new IntersectionObserver(async (entries) => {
-      lastroom = entries[0];
-      if (!lastroom.isIntersecting) return;
-      roomData.forEach(() => {
-        loadNewRoom(roomData[0]);
+    const lastroomObserver = new IntersectionObserver(
+      async (entries) => {
+        console.log("obs 실행 중");
 
-        roomData.splice(0, 1);
-      });
+        lastroom = entries[0];
+        if (!lastroom.isIntersecting) return;
+        roomData.forEach(() => {
+          loadNewRoom(roomData[0]);
 
-      lastroomObserver.unobserve(lastroom.target);
+          roomData.splice(0, 1);
+        });
 
-      lastroomObserver.observe(document.querySelector(".room:last-child"));
-    }, {});
+        lastroomObserver.unobserve(lastroom.target);
+
+        const a = document.getElementsByClassName("room");
+        const lastRoomElem = a[a.length - 1];
+
+        lastroomObserver.observe(lastRoomElem);
+
+        // console.log(document.querySelector(".room:last-child"));
+      },
+      { threshold: 0.3 }
+    );
 
     //클릭 이벤트
     const tag1 = document.getElementById("tab01");
@@ -92,9 +102,9 @@
 
       lastroomObserver.observe(document.querySelector(".room:last-child"));
 
-      rooms.forEach((room) => {
-        observer.observe(room);
-      });
+      // rooms.forEach((room) => {
+      //   observer.observe(room);
+      // });
     };
     tag2.onclick = (e) => {
       tagValueForServer = 1;
