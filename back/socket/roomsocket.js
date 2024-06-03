@@ -8,13 +8,44 @@ import {
 const chatEleCreater = (data) => {
   console.log("data", data);
 
+  const date = new Date(data.createdAt);
+  const dateTitle = `${(date.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}월 ${date
+    .getDate()
+    .toString()
+    .padStart(2, "0")}일 ${date.getHours()}시 ${date.getMinutes()}분`;
+
   if (data.userId != null) {
     data.name = data.userId;
   } else {
     data.name = data.ghostId;
   }
 
-  return `<div>${data.name}:${data.content} , createdAt : ${data.createdAt}</div>`;
+  if (data.fileName == null) {
+    return `
+    <a href="/chat/?chatId=${data._id}"><li class="received">
+      <span class="profile">
+        <span class="user">${data.name}</span>
+        <img class="image" src="../img/two-bleeding-gladiator-fight-in-colosseum-with-many-audience.jpeg" alt="" />
+      </span>
+      <span class="message">${data.content} </span>
+      <span class="time">${dateTitle}</span>
+    </li></a>`;
+  } else {
+    return `
+    <a href="/chat/?chatId=${data._id}"><li class="received">
+      <span class="profile">
+        <span class="user">${data.name}</span>
+        <img class="image" src="../img/two-bleeding-gladiator-fight-in-colosseum-with-many-audience.jpeg" alt="" />
+      </span>
+      <span class="message">${data.content} </span>
+      <span class="time">${dateTitle}</span>
+      <div class="imgBox">
+        <img class="image" src="../userFiles/${data.fileName}" alt="" />
+      </div>
+    </li></a>`;
+  }
 };
 
 export default (server) => {

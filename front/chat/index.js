@@ -1,3 +1,13 @@
+(async () => {
+  try {
+    const check = await axios.post(
+      "http://localhost:8080/cookieCheck",
+      {},
+      { withCredentials: true }
+    );
+  } catch (err) {}
+})();
+
 const localhost = location.href;
 const chatId = localhost.split("chatId=")[1];
 const sendform = document.forms.send;
@@ -44,7 +54,13 @@ const sendBtn = send.fight;
 
     let commentsHtml = "";
 
-    for (const { content, createdAt, userId } of commentList) {
+    for (const { content, createdAt, userId, ghostId } of commentList) {
+      let user;
+
+      if (userId == null) {
+        user = ghostId;
+      }
+
       let tempHtml = "";
       tempHtml += `<div class="comment">
         <div class="comment-mainbar">

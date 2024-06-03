@@ -61,20 +61,13 @@
       });
     };
 
-    document.getElementById("loadBtn").onclick = (e) => {
-      e.preventDefault();
-      //이전 채팅을 불러오는 함수
-      socket.emit("chatLoad", {
-        time: time,
-        roomId: +roomId,
-      });
-    };
+    // socket.emit("chatLoad", {
+    //   time: time,
+    //   roomId: +roomId,
+    // });
 
     //받을 때
     socket.on("chat", (data) => {
-      // const ele = document.createElement("div")
-      // ele.innerText = data;
-
       document.getElementById("chats").innerHTML += data;
       document.getElementById("imgInputer").value = null;
       document.getElementById("talk").value = null;
@@ -97,12 +90,47 @@
     console.log(roomId);
     console.log(roomId == true, roomId == false);
 
-    // if (user.result == "ok") {
-    //   location.href = "/"
-    // }
+    //Observer
+    // const lastroomObserver = new IntersectionObserver(
+    //   async (entries) => {
+    //     console.log("obs 실행 중");
+    //     if (roomData[0] == undefined) {
+    //       roomData = await (
+    //         await axios.post(
+    //           "http://localhost:8080/api/room/ran",
+    //           { roomValue: roomValue, tag: tagValueForServer },
+    //           { withCredentials: true }
+    //         )
+    //       ).data;
+
+    //       roomValue = roomData[0].roomValue;
+    //     }
+
+    //     if (roomData[0] == undefined) {
+    //       lastroom = entries[0];
+    //       lastroomObserver.unobserve(lastroom.target);
+    //     } else {
+    //       lastroom = entries[0];
+    //       if (!lastroom.isIntersecting) return;
+    //       roomData.forEach(() => {
+    //         console.log(roomData[0]);
+    //         loadNewRoom(roomData[0]);
+
+    //         roomData.splice(0, 1);
+    //       });
+
+    //       lastroomObserver.unobserve(lastroom.target);
+
+    //       const a = document.getElementsByClassName("room");
+    //       const lastRoomElem = a[a.length - 1];
+
+    //       lastroomObserver.observe(lastRoomElem);
+    //     }
+    //   },
+    //   { threshold: 0.3 }
+    // );
   } catch (err) {
-    //코어 값
-    // console.log(err.response.data.error)
+    console.log(err);
     document.getElementsByTagName("body")[0].innerHTML = "방 없음";
   }
 })();

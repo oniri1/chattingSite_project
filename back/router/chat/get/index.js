@@ -36,6 +36,8 @@ router.post("/recomments", async (req, res) => {
       chatId: req.body.chatId,
     });
 
+    console.log(content);
+
     if (content[0] == undefined) {
       res.json({ error: "notrecomments" });
     } else {
