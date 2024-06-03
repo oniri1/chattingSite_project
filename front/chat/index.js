@@ -1,47 +1,102 @@
 const localhost = location.href;
 const chatId = localhost.split("chatId=")[1];
+const sendform = document.forms.send;
+const sendBtn = send.fight;
 
 (async () => {
   try {
     console.log(chatId);
 
-    const contents = await axios.post(
-      `http://localhost:8080/chat/get/contents`,
-      { chatId: chatId },
-      {
-        withCredentials: true,
-      }
-    );
+    const contents = await (
+      await axios.post(
+        `http://localhost:8080/chat/get/contents`,
+        { chatId: chatId },
+        {
+          withCredentials: true,
+        }
+      )
+    ).data;
 
-    console.log(contents);
+    document.getElementById(
+      "userInfo"
+    ).innerHTML = `<h2>작성자 : ${contents.user}</h2>`;
 
-    const recomments = await axios.post(
-      `http://localhost:8080/chat/get/recomments`,
-      { chatId: chatId },
-      {
-        withCredentials: true,
-      }
-    );
+    const contentsElem = document.getElementById("imgElem");
 
-    console.log(recomments);
+    if (contents.file != null) {
+      contentsElem.innerHTML = `<img src="../userFiles/${contents.file}" alt="" />`;
+    }
+
+    contentsElem.innerHTML += `<h3>${contents.chat}</h3>`;
+
+    //댓글
+    const commentList = await (
+      await axios.post(
+        `http://localhost:8080/chat/get/recomments`,
+        { chatId: chatId },
+        {
+          withCredentials: true,
+        }
+      )
+    ).data.data;
+
+    console.log(commentList);
+
+    let commentsHtml = "";
+
+    for (const { content, createdAt, userId } of commentList) {
+      let tempHtml = "";
+      tempHtml += `<div class="comment">
+        <div class="comment-mainbar">
+          <div class="comment-datas">
+            <div class="comment-user-img">
+              <img src="../img/gladiator-in-colosseum.jpeg" alt="">
+            </div>
+            <div class="comment-user-name">${userId}</div>
+            <div class="comment-createdAt">${createdAt}</div>
+          </div>
+          <div class="comment-content">${content}</div>
+          <div class="comment-options">
+    
+          </div>
+        </div>
+      </div>`;
+
+      tempHtml = `<div class="comments">${tempHtml}</div>`;
+
+      commentsHtml += tempHtml;
+    }
+
+    const commentListEle = document.getElementsByClassName("comment-list")[0];
+
+    commentListEle.innerHTML += commentsHtml;
   } catch (err) {}
 })();
 
-//댓글 쓰기
-// (async () => {
-//   try {
-//     const data = await axios.post(
-//       `http://localhost:8080/chat/reply`,
-//       { chatId: chatId, content: "forTest" },
-//       {
-//         withCredentials: true,
-//       }
-//     );
+//클릭 이벤트
+sendBtn.onclick = async (e) => {
+  try {
+    e.preventDefault();
 
-//     console.log(data);
+    if (sendform.content.value != "") {
+      console.log("val");
 
-//     if (data.data.redirect) location.href = data.data.redirect;
-//     if (data.data.error) console.error("error : ", data.data.error);
-//     if (data.data.result) console.log("result : ", data.data.result);
-//   } catch (err) {}
-// })();
+      const data = await axios.post(
+        "http://localhost:8080/chat/reply", //url
+        { chatId: chatId, content: sendform.content.value }, //body
+        {
+          //options
+          withCredentials: true,
+        }
+      );
+
+      if (data.data.redirect) location.href = data.data.redirect;
+      if (data.data.error) console.error("error : ", data.data.error);
+      if (data.data.result) console.log("result : ", data.data.result);
+    } else {
+      return;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -6,7 +6,7 @@ export const upload = multer({
     destination: (req, file, callback) => {
       console.log("1");
       //주소
-      callback(null, "./uploads");
+      callback(null, "../front/userFiles");
     },
 
     filename: (req, file, callback) => {

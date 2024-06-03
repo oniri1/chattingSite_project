@@ -22,6 +22,7 @@ router.post("/contents", async (req, res) => {
       user: content.userId == null ? content.ghostId : content.userId,
       chat: content.content,
       createdAt: content.createdAt,
+      file: content.fileName,
     });
   } catch (err) {
     console.log(err);
