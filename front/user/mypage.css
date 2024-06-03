@@ -138,11 +138,12 @@ header {
 }
 
 .bgi {
+  margin-top: 2.5px;
   display: inline-flex;
   width: 40%;
   height: 160px;
   /* border: 1px solid black; */
-  background: url(/Front/img/FightGladiator.jpeg) no-repeat center center;
+  background: url(../img/FightGladiator.jpeg) no-repeat center center;
   background-size: cover;
   border: 1px solid azure;
   border-radius: 5px;
@@ -213,13 +214,23 @@ header {
 .tabs__content a {
   color: black;
   display: block;
-  margin: 10px 0px;
+  margin: 1px 0px;
 }
 
 .list_container {
-  margin-left: 50px;
-  width: 100%;
+  display: inline-block;
+  margin-left: 40px;
+  margin: 5px;
+  padding: 5px;
+  max-width: 260px;
   height: 100%;
+  border: solid 1px black;
+}
+#commentTap {
+  width: 100%;
+}
+#commentTap form {
+  max-width: 260px;
 }
 
 .form_case {

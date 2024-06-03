@@ -1,5 +1,7 @@
 (async () => {
   try {
+    const firstOb = document.getElementById("forOb");
+
     //소켓용 쿠키
     const userName = await (
       await axios.post(
@@ -10,7 +12,6 @@
         }
       )
     ).data;
-    console.log(userName);
 
     //소켓
     const localhost = location.href;
@@ -18,7 +19,7 @@
 
     console.log(roomIdStr);
 
-    const roomId = await (
+    const roomData = await (
       await axios.post(
         `http://localhost:8080/room/${roomIdStr}`,
         {},
@@ -26,7 +27,19 @@
           withCredentials: true,
         }
       )
-    ).data.roomId;
+    ).data;
+
+    if (firstOb != null) {
+      firstOb.innerHTML = `<h2 for="nickname">방 제목 : ${roomData.title} </h2>`;
+    } else {
+      const timer = setTimeout(() => {
+        location.href = location.href;
+      }, 500);
+
+      // timer();
+    }
+    document.getElementById("forOb");
+    const roomId = roomData.roomId;
 
     //소켓 통신
     let time = Date.now();
@@ -61,11 +74,6 @@
       });
     };
 
-    // socket.emit("chatLoad", {
-    //   time: time,
-    //   roomId: +roomId,
-    // });
-
     //받을 때
     socket.on("chat", (data) => {
       document.getElementById("chats").innerHTML += data;
@@ -76,10 +84,16 @@
     socket.on("chatload", (data) => {
       // const ele = document.createElement("div")
       // ele.innerText = data;
-      console.log(data);
 
       document.getElementById("chats").innerHTML =
         data + document.getElementById("chats").innerHTML;
+
+      const forScroll = document.getElementById("scrollId");
+      forScroll.scrollTop = forScroll.scrollHeight;
+
+      const a = document.getElementsByClassName("received");
+      const lastRoomElem = a[0];
+      lastroomObserver.observe(lastRoomElem);
     });
 
     socket.on("CliTimeReset", (data) => {
@@ -91,44 +105,32 @@
     console.log(roomId == true, roomId == false);
 
     //Observer
-    // const lastroomObserver = new IntersectionObserver(
-    //   async (entries) => {
-    //     console.log("obs 실행 중");
-    //     if (roomData[0] == undefined) {
-    //       roomData = await (
-    //         await axios.post(
-    //           "http://localhost:8080/api/room/ran",
-    //           { roomValue: roomValue, tag: tagValueForServer },
-    //           { withCredentials: true }
-    //         )
-    //       ).data;
+    let lastroom;
+    const lastroomObserver = new IntersectionObserver(
+      async (entries) => {
+        console.log("obs 실행 중");
+        lastroom = entries[0];
 
-    //       roomValue = roomData[0].roomValue;
-    //     }
+        socket.emit("chatLoad", {
+          time: time,
+          roomId: +roomId,
+        });
 
-    //     if (roomData[0] == undefined) {
-    //       lastroom = entries[0];
-    //       lastroomObserver.unobserve(lastroom.target);
-    //     } else {
-    //       lastroom = entries[0];
-    //       if (!lastroom.isIntersecting) return;
-    //       roomData.forEach(() => {
-    //         console.log(roomData[0]);
-    //         loadNewRoom(roomData[0]);
+        //기존 옵저버 지우기
+        lastroomObserver.unobserve(lastroom.target);
+      },
+      { threshold: 0.3 }
+    );
 
-    //         roomData.splice(0, 1);
-    //       });
-
-    //       lastroomObserver.unobserve(lastroom.target);
-
-    //       const a = document.getElementsByClassName("room");
-    //       const lastRoomElem = a[a.length - 1];
-
-    //       lastroomObserver.observe(lastRoomElem);
-    //     }
-    //   },
-    //   { threshold: 0.3 }
-    // );
+    if (firstOb != null) {
+      lastroomObserver.observe(firstOb);
+    } else {
+      const timer = setTimeout(() => {
+        location.href = location.href;
+      }, 500);
+      // timer();
+    }
+    console.log(location);
   } catch (err) {
     console.log(err);
     document.getElementsByTagName("body")[0].innerHTML = "방 없음";

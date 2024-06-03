@@ -4,6 +4,13 @@ hamburger.onclick = function () {
   navBar.classList.toggle("active");
 };
 
+const dataChecker = (data) => {
+  console.log(data);
+  if (data.data.redirect) location.href = data.data.redirect;
+  if (data.data.error) console.error("error : ", data.data.error);
+  if (data.data.result) console.log("result : ", data.data.result);
+};
+
 //탭 셋업
 const setupTabs = () => {
   document.querySelectorAll(".tabs__button").forEach((button) => {
@@ -52,7 +59,7 @@ const userinfoElem = document.getElementById("user-info");
     )
   ).data;
 
-  console.log(user.user);
+  // console.log(user.user);
   if (user.user) {
     userinfoElem.innerHTML = `<ul>
     <li>
@@ -70,7 +77,8 @@ const userinfoElem = document.getElementById("user-info");
 
 //룸 만들기 펑션
 const loadNewRoom = (data) => {
-  const { roomId, title, tag } = data;
+  const { id, title, tag } = data;
+  // console.log(data);
 
   let tagName;
 
@@ -78,7 +86,7 @@ const loadNewRoom = (data) => {
   if (tag == "2") tagName = "정보공유";
   if (tag == "3") tagName = "친목수다";
 
-  const room = `
+  const room = ` <form class="room">
   <div class="box">
     <div class="room">
       <div class="title">
@@ -87,14 +95,16 @@ const loadNewRoom = (data) => {
       <div>
         <div class="bgi"></div>
         <div class="status">
+        <div class="roomIdElem" style="display:none">${id}</div>
           <div class="tag"># ${tagName}</div>
           <div class="host">태그 (업데이트 예정)</div>
-          <button class="enter">입장하기</button>
+
+          <a href="/room/?roomId=${id}"><button type="button" class="enter">입장하기</button></a>
           <button class="delete">삭제하기</button>
         </div>
       </div>
     </div>
-  </div>`;
+  </div></form>`;
 
   const roomContainer = document.getElementById("tab1");
   roomContainer.innerHTML += room;
@@ -114,11 +124,141 @@ const loadNewRoom = (data) => {
     loadNewRoom(e);
   });
 
-  let recomment = await axios.post(
-    "http://localhost:8080/user/get/recomments",
-    {},
-    { withCredentials: true }
-  );
+  //쓴 댓글
+  let recomment = await (
+    await axios.post(
+      "http://localhost:8080/user/get/recomments",
+      {},
+      { withCredentials: true }
+    )
+  ).data.data;
 
-  console.log(recomment.data);
+  // console.log(recomment);
+
+  const recommentElem = document.getElementById("commentTap");
+
+  // console.log(recommentElem);
+  for (const { _id, content, chatId } of recomment) {
+    // console.log("실횅");
+    const recomment2 = `<form class="recomment">
+    <div class="list_container">
+        내용 : ${content}
+
+          <a href="/chat/?chatId=${chatId}"><button type="button" class="enter">입장하기</button></a>
+          <button class="delete">삭제하기</button>
+      
+      </div>
+    <div id="recommentIdElem" style="display:none">${_id}</div>
+  </form>`;
+
+    recommentElem.innerHTML += recomment2;
+  }
+
+  const everyForms = [...document.forms];
+
+  //form 처리
+  everyForms.forEach((element) => {
+    const deleteBtn = [...element][1];
+
+    deleteBtn.onclick = async (e) => {
+      e.preventDefault();
+
+      //룸 삭제
+      if (element.classList[0] == "room") {
+        const roomId =
+          element.children[0].children[0].children[1].children[1].children[0]
+            .innerText;
+
+        console.log(roomId);
+        const data = await axios.post(
+          `http://localhost:8080/user/delete/room`,
+          { roomId: +roomId },
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(data.data.data);
+        dataChecker(data);
+      }
+
+      //댓글 삭제
+      if (element.classList[0] == "recomment") {
+        console.log("rec");
+
+        const recommentId = element.children[1].innerText;
+
+        //댓글 삭제
+        const data = await axios.post(
+          `http://localhost:8080/user/delete/recomment`,
+          { recommentId: recommentId },
+          {
+            withCredentials: true,
+          }
+        );
+
+        dataChecker(data);
+      }
+    };
+  });
+
+  //닉변
+  const nickBtn = document.getElementById("nickBtn");
+  nickBtn.onclick = async (e) => {
+    e.preventDefault();
+
+    const nick = document.getElementById("nickInput").value;
+
+    if (nick != "") {
+      const data = await axios.post(
+        `http://localhost:8080/user/set/name`,
+        { name: nick },
+        {
+          withCredentials: true,
+        }
+      );
+      dataChecker(data);
+    } else {
+      return;
+    }
+  };
+
+  //비밀번호 변경
+
+  //닉변
+  const pwBtn = document.getElementById("pwBtn");
+  pwBtn.onclick = async (e) => {
+    e.preventDefault();
+
+    const pw = document.getElementById("pwInput").value;
+
+    if (pw != "") {
+      const data = await axios.post(
+        `http://localhost:8080/user/set/pw`,
+        { pw: pw },
+        {
+          withCredentials: true,
+        }
+      );
+      dataChecker(data);
+    } else {
+      return;
+    }
+  };
+
+  const killBtn = document.getElementById("killBtn");
+
+  killBtn.onclick = async (e) => {
+    e.preventDefault();
+    console.log("hi");
+
+    //회원탈퇴
+    const data = await axios.post(
+      `http://localhost:8080/user/kill`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    dataChecker(data);
+  };
 })();

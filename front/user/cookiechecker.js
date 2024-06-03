@@ -6,7 +6,7 @@
       { withCredentials: true }
     );
 
-    console.log("check", check.data);
+    // console.log("check", check.data);
 
     if (check.data.user == undefined) {
       location.href = "/";

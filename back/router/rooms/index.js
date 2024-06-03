@@ -8,19 +8,20 @@ router.post("/", async (req, res) => {
       res.status(405);
       res.json({ error: "no room" });
     } else {
-      const rooms = await Rooms.findAll({
+      const rooms = await Rooms.findOne({
         where: { id: req.query.roomId },
-        attributes: ["id"],
+        attributes: ["id", "title"],
       });
 
       let temp = false;
-      // console.log("query", req.query.roomId);
-      for (const { id } of rooms) {
-        if (id == req.query.roomId) temp = true;
-      }
+
+      const { id } = rooms;
+      if (id == req.query.roomId) temp = true;
+
+      console.log("room@@@@@@@@@@@@@@@@@@", rooms.title);
 
       if (temp) {
-        res.json({ roomId: req.query.roomId });
+        res.json({ roomId: req.query.roomId, title: rooms.title });
       } else {
         console.log("err");
         res.status(405);

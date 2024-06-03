@@ -138,6 +138,10 @@
       try {
         e.preventDefault();
 
+        const roombox = document.getElementById("roomShower");
+        while (roombox.children[1]) {
+          roombox.removeChild(roombox.lastChild);
+        }
         const searchValue = document.forms.searchs.searchValue.value;
 
         if (searchValue != "") {
@@ -194,8 +198,6 @@
       navBar = document.querySelector(".nav-bar");
       navBar.classList.toggle("active");
     };
-
-    // const rooms = document.querySelectorAll(".room");
 
     lastroomObserver.observe(document.querySelector(".room:last-child"));
 

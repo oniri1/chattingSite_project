@@ -78,9 +78,6 @@ export default (server) => {
     //쓰기
     socket.on("chatReply", async (data) => {
       try {
-        // console.log(`${socket.id}:${data}`);
-        // console.log(JSON.stringify(`"${socket.id":${data}}`));
-
         if (!data.userName.ghost) data.userName.ghost = null;
         if (!data.userName.user) data.userName.user = null;
 
@@ -116,16 +113,12 @@ export default (server) => {
         let { time } = data;
         const { roomId } = data;
 
-        // console.log(time, roomId);
-        //test code
-
         let dataFromMongo = [];
         for (
           ;
           dataFromMongo[0] == undefined && time > 1715565537840;
           time -= 3600000
         ) {
-          console.log("start", roomId, time);
           dataFromMongo = await mongoGetData({
             $and: [
               { roomId: roomId },
@@ -139,17 +132,14 @@ export default (server) => {
           });
 
           dataFromMongo.reverse();
-          // console.log(dataFromMongo);
         }
 
         dataFromMongo.forEach((temp) => {
-          console.log({ ...temp });
           socket.emit("chatload", chatEleCreater(temp));
           socket.emit("CliTimeReset", temp.createdAt);
         });
 
         dataFromMongo = [];
-        // console.log(test);
       } catch (err) {
         console.log("roomsocket.js err@@@@", err);
       }

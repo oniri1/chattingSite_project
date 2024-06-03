@@ -50,7 +50,7 @@ const sendBtn = send.fight;
       )
     ).data.data;
 
-    console.log(commentList);
+    // console.log(commentList);
 
     let commentsHtml = "";
 

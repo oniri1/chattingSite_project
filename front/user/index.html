@@ -23,21 +23,14 @@
           <li>
             <a href="/regist" class="">회원가입</a>
           </li>
-          <!-- <li>
-            <a href="" class="">고객지원</a>
-          </li>
-          <li>
-            <a href="" class="">Contact Us</a>
-          </li> -->
-          <!-- <li>
-            <a href="./user/mypage.html" class=""></a>
-          </li> -->
+
           <li>
             <a href="/login" class="">로그인</a>
           </li>
         </ul>
       </nav>
     </header>
+
 
     <div class="tabs">
       <div class="tabs__sidebar">
@@ -48,76 +41,52 @@
         <button class="tabs__button" data-for-tab="5">회원탈퇴</button>
       </div>
       <div class="tabs__content" data-tab="1" id="tab1">
-        <h2 id="forOb">내 채팅방</h2>
+        <h2>내 채팅방</h2>
         <p>참여중인 채팅방 목록</p>
-
         <!-- 채팅방 -->
-        <!-- <div class="list_container">
-          <div class="box">
-            <div class="room">
-              <div class="title">콜로세움에 어서오세요!</div>
-              <div>
-                <div class="bgi"></div>
-                <div class="status">
-                  <div class="tag"># 공지사항</div>
-                  <div class="host">태그 (업데이트 예정)</div>
-                  <button class="enter">입장하기</button>
-                  <button class="delete">삭제하기</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-
       </div>
-      <div class="tabs__content" data-tab="2">
+      <div class="tabs__content" data-tab="2" id="commentTap">
         <h2>내 댓글</h2>
         <p>작성한 댓글 목록</p>
-        <div class="list_container">
-          <a href="">1. 가나다라마바사아</a>
-        </div>
+        <!-- 내 댓글 -->
       </div>
+      <!--  -->
       <div class="tabs__content" data-tab="3">
         <h2>닉네임 변경</h2>
         <p>닉네임변경하기</p>
-        <form action="" class="form_case">
+        <div action="" class="form_case">
+
           <div class="input_style">
-            <input type="password" placeholder="현재 비밀번호를 입력해주세요." />
+            <input id="nickInput" type="text" placeholder="변경할 닉네임을 입력해주세요." />
+            <button id="nickBtn">이름 변경</button>
           </div>
-          <div class="input_style">
-            <input type="text" placeholder="변경할 닉네임을 입력해주세요." />
-            <input type="button" value="변경하기" />
-          </div>
-        </form>
+        </div>
       </div>
       <div class="tabs__content" data-tab="4">
         <h2>비밀번호 변경</h2>
         <p>비밀번호 변경하기</p>
-        <form action="" class="form_case">
+        <div class="form_case">
           <div class="input_style">
-            <input type="password" placeholder="현재 비밀번호를 입력해주세요." />
+            <input id="pwInput" type="password" placeholder="변경할 비밀번호를 다시확인해주세요." />
+            <button id="pwBtn">비밀번호 변경</button>
           </div>
-          <div class="input_style">
-            <input type="password" placeholder="변경할 비밀번호를 입력해주세요." />
-          </div>
-          <div class="input_style">
-            <input type="password" placeholder="변경할 비밀번호를 다시확인해주세요." />
-            <input type="button" value="비밀번호 확인" />
-          </div>
-        </form>
+        </div>
       </div>
       <div class="tabs__content" data-tab="5">
         <h2>회원탈퇴</h2>
-        <p>회원탈퇴하기</p>
-        <div class="list_container">
-          <h1>불가능</h1>
+        <div class="form_case">
+          <div class="input_style">
+            <button id="killBtn">회원탈퇴하기</button>
+          </div>
         </div>
+
       </div>
     </div>
     <footer class="footer">
       <a href="./"> 이용약관</a>
       <a href="./">개인정보처리방침</a>
     </footer>
-    <script src="mapage.js"></script>
+    <script src="./mapage.js"></script>
+
   </body>
 </html>

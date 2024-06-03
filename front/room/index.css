@@ -103,7 +103,7 @@ body {
 }
 
 .profile {
-  max-width: 50px;
+  max-width: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,7 +159,7 @@ body {
 }
 
 .received .imgBox {
-  padding-left: 50px;
+  padding-left: 100px;
   flex: 1;
   flex-direction: column;
 }
