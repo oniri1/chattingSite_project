@@ -54,11 +54,13 @@ router.post("/rooms", async (req, res) => {
         attributes: ["id", "title", "tag"],
       });
 
-      a.dataValues.roomId = a.dataValues.id;
-      a.dataValues.id = undefined;
+      if (a != null) {
+        a.dataValues.roomId = a.dataValues.id;
+        a.dataValues.id = undefined;
 
-      //   console.log(a.dataValues);
-      data.push(a);
+        //   console.log(a.dataValues);
+        data.push(a);
+      }
     }
 
     // console.log(data);
